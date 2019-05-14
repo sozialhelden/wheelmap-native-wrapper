@@ -10,9 +10,10 @@
 		2D504BEF1FA100E20019B279 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D504BEE1FA100E20019B279 /* AppDelegate.swift */; };
 		2D504BF11FA100E20019B279 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D504BF01FA100E20019B279 /* ViewController.swift */; };
 		2D504BF41FA100E20019B279 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BF21FA100E20019B279 /* Main.storyboard */; };
-		2D504BF91FA100E20019B279 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BF81FA100E20019B279 /* Assets.xcassets */; };
+		2D504BF91FA100E20019B279 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BF81FA100E20019B279 /* Images.xcassets */; };
 		2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */; };
 		2DC96ADE1FA5DD32006B5881 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC96ADD1FA5DD32006B5881 /* Constants.swift */; };
+		74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */ = {isa = PBXBuildFile; fileRef = 74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,13 +21,14 @@
 		2D504BEE1FA100E20019B279 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D504BF01FA100E20019B279 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2D504BF31FA100E20019B279 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2D504BF81FA100E20019B279 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2D504BF81FA100E20019B279 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2D504BFB1FA100E20019B279 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D504BFD1FA100E20019B279 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D64358A1FA62B5800ECC5D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		2D9480D21FA8B96000ED0A97 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		2DC96ADD1FA5DD32006B5881 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		74DED3F322899FF300D4CBD1 /* ios-pwa-wrapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-pwa-wrapper.entitlements"; sourceTree = "<group>"; };
+		74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = InjectLocation.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +62,12 @@
 		2D504BED1FA100E20019B279 /* ios-pwa-wrapper */ = {
 			isa = PBXGroup;
 			children = (
+				74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */,
 				74DED3F322899FF300D4CBD1 /* ios-pwa-wrapper.entitlements */,
 				2D504BEE1FA100E20019B279 /* AppDelegate.swift */,
 				2D504BF01FA100E20019B279 /* ViewController.swift */,
 				2D504BF21FA100E20019B279 /* Main.storyboard */,
-				2D504BF81FA100E20019B279 /* Assets.xcassets */,
+				2D504BF81FA100E20019B279 /* Images.xcassets */,
 				2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */,
 				2D504BFD1FA100E20019B279 /* Info.plist */,
 				2DC96ADD1FA5DD32006B5881 /* Constants.swift */,
@@ -105,12 +108,16 @@
 		2D504BE31FA100E20019B279 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					javascript,
+				);
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Sozialhelden;
 				TargetAttributes = {
 					2D504BEA1FA100E20019B279 = {
 						CreatedOnToolsVersion = 9.0.1;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -148,7 +155,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */,
-				2D504BF91FA100E20019B279 /* Assets.xcassets in Resources */,
+				2D504BF91FA100E20019B279 /* Images.xcassets in Resources */,
+				74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */,
 				2D504BF41FA100E20019B279 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +213,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -212,6 +221,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -263,6 +273,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -270,6 +281,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -312,7 +324,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.mutaphysis.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -330,7 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.mutaphysis.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

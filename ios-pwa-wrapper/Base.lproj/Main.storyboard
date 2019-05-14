@@ -31,7 +31,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PAe-DD-sEP">
                                         <rect key="frame" x="0.0" y="180" width="414" height="113"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud_off" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-1O-6cw">
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Offline" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-1O-6cw">
                                                 <rect key="frame" x="183" y="0.0" width="48" height="48"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are offline." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2o9-AL-VUQ">
@@ -125,6 +125,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cloud_off" width="48" height="48"/>
+        <image name="Offline" width="48" height="48"/>
     </resources>
 </document>
