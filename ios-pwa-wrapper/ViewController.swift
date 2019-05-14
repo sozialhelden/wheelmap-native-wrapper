@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     // MARK: Globals
     var webView: WKWebView!
     var progressBar : UIProgressView!
+    var contentController: WKUserContentController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +22,21 @@ class ViewController: UIViewController {
         self.title = appTitle
         setupApp()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
+    // Initialize App and start loading
+    func setupApp() {
+        setupWebView()
+        locationInit()
+        setupUI()
+        loadAppUrl()
+    }
+     
+    // Cleanup
+    deinit {
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.isLoading))
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
     // reload page from offline screen
     @IBAction func onOfflineButtonClick(_ sender: Any) {
         offlineView.isHidden = true
@@ -44,13 +54,16 @@ class ViewController: UIViewController {
     // Initialize WKWebView
     func setupWebView() {
         // set up webview
-        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height))
+        let config = WKWebViewConfiguration()
+        contentController = WKUserContentController()
+        config.userContentController = contentController
+        config.preferences.javaScriptEnabled = true
+        
+        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height), configuration: config)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        webViewContainer.addSubview(webView)
         
-        webView.configuration.preferences.javaScriptEnabled = true
         
         if #available(iOS 10.0, *) {
             webView.configuration.ignoresViewportScaleLimits = false
@@ -82,6 +95,8 @@ class ViewController: UIViewController {
         // init observers
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: NSKeyValueObservingOptions.new, context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: NSKeyValueObservingOptions.new, context: nil)
+        
+        webViewContainer.addSubview(webView)
     }
 
     // Initialize UI elements
@@ -114,25 +129,10 @@ class ViewController: UIViewController {
             self.navigationController?.navigationBar.barStyle = UIBarStyle.black
         }
     }
-
-    // load startpage
-    func loadAppUrl() {
-        let urlRequest = URLRequest(url: webAppUrl!)
-        webView.load(urlRequest)
-    }
     
-    // Initialize App and start loading
-    func setupApp() {
-        setupWebView()
-        setupUI()
-        loadAppUrl()
-    }
-    
-    // Cleanup
-    deinit {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.isLoading))
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
-        NotificationCenter.default.removeObserver(self, name: .UIDeviceOrientationDidChange, object: nil)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 }
 
@@ -150,12 +150,19 @@ extension ViewController: WKNavigationDelegate {
         activityIndicatorView.isHidden = true
         activityIndicator.stopAnimating()
     }
+    
     // didFailProvisionalNavigation
     // == we are offline / page not available
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         // show offline screen
         offlineView.isHidden = false
         webViewContainer.isHidden = true
+    }
+    
+    // load startpage
+    func loadAppUrl() {
+        let urlRequest = URLRequest(url: webAppUrl!)
+        webView.load(urlRequest)
     }
 }
 
@@ -170,9 +177,10 @@ extension ViewController: WKUIDelegate {
     }
     // restrict navigation to target host, open external links in 3rd party apps
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        print("decidePolicyFor: \(navigationAction)")
+        
         if let requestUrl = navigationAction.request.url {
             if let requestHost = requestUrl.host {
-                
                 // requestHost.range(of: webAppHost) != nil would allow links like news.wheelmap.org for wheelmap.org
                 if (requestHost == webAppHost) {
                     decisionHandler(.allow)
@@ -189,6 +197,92 @@ extension ViewController: WKUIDelegate {
                 }
             } else {
                 decisionHandler(.cancel)
+            }
+        }
+    }
+}
+
+import CoreLocation
+
+extension ViewController: CLLocationManagerDelegate, WKScriptMessageHandler {
+    
+    private struct LocationData {
+        static var locationManger: CLLocationManager!
+        static var currentLocation: CLLocation!
+    }
+    
+    func locationInit() {
+        LocationData.locationManger = CLLocationManager()
+        LocationData.locationManger.delegate = self
+        LocationData.locationManger.desiredAccuracy = kCLLocationAccuracyBest
+        LocationData.locationManger.distanceFilter = kCLDistanceFilterNone
+        
+        contentController.add(self, name: "locationHandler")
+        let fileName = "InjectLocation.js"
+        if let filepath = Bundle.main.path(forResource: fileName, ofType: nil) {
+            do {
+                let contents = try String(contentsOfFile: filepath)
+                
+                // print(contents)
+                let userScript = WKUserScript(source: contents, injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
+                contentController.addUserScript(userScript)
+            } catch {
+                print("Failed loading \(fileName)")
+            }
+        } else {
+            print("Could not find \(fileName)")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // print("didChangeAuthorization: \(String(describing: status))")
+        
+        if status == .authorizedWhenInUse {
+            LocationData.locationManger.startUpdatingLocation()
+        }
+        
+        if status == .denied {
+            webView.evaluateJavaScript("window._nativePositionDenied();")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // print("didFailWithError: \(error)")
+        webView.evaluateJavaScript("window._nativePositionDenied();")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // print("didUpdateToLocation: \(String(describing: locations.last))")
+        let lastLoc = locations.last;
+        LocationData.currentLocation = lastLoc
+        
+        if (lastLoc != nil) {
+            let timestamp = Int64(lastLoc!.timestamp.timeIntervalSince1970 * 1000)
+            let coord = lastLoc!.coordinate
+            let altitude = lastLoc!.altitude
+            webView.evaluateJavaScript("window._nativePositionChanged({coords: { latitude: \(coord.latitude), longitude: \(coord.longitude), altitude: \(altitude), accuracy : \(lastLoc!.horizontalAccuracy), altitudeAccuracy: \(lastLoc!.verticalAccuracy), heading:  \(lastLoc!.course), speed: \(lastLoc!.speed) }, timestamp: \(timestamp) })")
+        }
+    }
+    
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if (message.name == "locationHandler"){
+            
+            let payload = "\(message.body)";
+            
+            // print("userContentController: \(payload)")
+            
+            if (payload == "watchPosition") {
+                if LocationData.locationManger.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization)) {
+                    LocationData.locationManger.requestWhenInUseAuthorization()
+                }
+                
+                if CLLocationManager.locationServicesEnabled() {
+                    LocationData.locationManger.startUpdatingLocation()
+                }
+            }
+            
+            if (payload == "stopPosition") {
+                LocationData.locationManger.stopUpdatingLocation()
             }
         }
     }
