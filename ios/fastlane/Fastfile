@@ -1,0 +1,76 @@
+# update_fastlane
+
+fastlane_require 'dotenv'
+
+default_platform(:ios)
+
+EXPORT_METHOD_AD_HOC = "ad-hoc" 
+EXPORT_METHOD_APP_STORE = "app-store"
+EXPORT_METHOD_DEVELOPMENT = "development"
+
+
+platform :ios do
+  before_all do
+    Dotenv.require_keys("PROJECT_ENV")
+
+    project = ENV["PROJECT_ENV"];
+
+    puts "PROJECT_ENV: #{project}"
+    # path relative to Fastfile
+    res = Dotenv.load("../../env/#{project}/Configuration")
+    Dotenv.require_keys("PROJECT_ID")
+  end
+
+  ######################### PRIVATE LANES ##########################
+  #--------------------- Building the project ---------------------#
+  private_lane :build do |options|
+    # Get or configure the needed certs
+    cert(
+      output_path: "fastlane/certificate",
+      team_id: ENV["TEAM_ID"],
+      development: options[:export_method] == EXPORT_METHOD_DEVELOPMENT
+    )
+    # Get the needed provision profiles
+    sigh(
+      output_path: "fastlane/certificate",
+      team_id: ENV["TEAM_ID"],
+      app_identifier: ENV["PROJECT_BUNDLE_ID"],
+      development: options[:export_method] == EXPORT_METHOD_DEVELOPMENT,
+      #adhoc: options[:export_method] == EXPORT_METHOD_AD_HOC
+    )
+    # Build the iOS app, with enabling the code signing automatically
+    automatic_code_signing(
+      use_automatic_signing: true
+    )
+    # Set bundle & app name
+    update_app_identifier(
+      plist_path: 'ios-pwa-wrapper/Info.plist',
+      app_identifier: ENV["PROJECT_BUNDLE_ID"]
+    )
+    update_info_plist(
+      plist_path: 'ios-pwa-wrapper/Info.plist',
+      display_name: ENV["PROJECT_APP_NAME"]
+    )
+    # Make a build 
+    gym(
+      export_method: options[:export_method],
+      # static options
+      configuration: "Release",
+      project: "ios-pwa-wrapper.xcodeproj",
+      scheme: "ios-pwa-wrapper",
+      output_directory: "fastlane/ipa",
+      export_xcargs: "-allowProvisioningUpdates",
+      silent: true,
+      clean: true,
+      suppress_xcode_output: true,
+      # env options
+      output_name: ENV["PROJECT_APP_NAME"],
+    )
+  end  
+
+  desc "Description of what the lane does"
+  lane :development do
+
+    build(export_method: EXPORT_METHOD_DEVELOPMENT)
+  end
+end

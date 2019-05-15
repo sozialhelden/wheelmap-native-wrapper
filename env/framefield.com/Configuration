@@ -1,0 +1,9 @@
+PROJECT_ID = "wheelmap.org" # Name of this configuration
+
+TEAM_ID = "8VPUAC643N" # Team id, from developer account details
+TEAM_NAME = "Framefield GmbH" # Team name, from developer account
+
+PROJECT_APP_NAME = "Wheelmap" # App Name
+PROJECT_BUNDLE_ID = "com.framefield.wheelmap.test" # Project Bundle Id 'com.project.name'
+
+PROJECT_HOST_NAME = "wheelmap.org"

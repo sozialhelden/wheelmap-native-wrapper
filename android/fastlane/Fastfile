@@ -1,0 +1,20 @@
+
+default_platform(:android)
+
+platform :android do
+  before_all do
+    Dotenv.require_keys("PROJECT_ENV")
+
+    project = ENV["PROJECT_ENV"];
+
+    puts "PROJECT_ENV: #{project}"
+    # path relative to Fastfile
+    res = Dotenv.load("../../env/#{project}/Configuration")
+    Dotenv.require_keys("PROJECT_ID")
+  end
+
+  desc "Build the app"
+  lane :development do
+    gradle(task: "clean assembleRelease")
+  end
+end

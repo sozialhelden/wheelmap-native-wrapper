@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">PWA Wrapper</string>
     <string name="offline_heading">You are offline.</string>
