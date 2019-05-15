@@ -1,6 +1,9 @@
 
 default_platform(:android)
 
+manifestFile = './app/src/main/AndroidManifest.xml'
+appNameStringsFile = './app/src/main/res/values/strings.xml'
+
 platform :android do
   before_all do
     Dotenv.require_keys("PROJECT_ENV")
@@ -13,8 +16,17 @@ platform :android do
     Dotenv.require_keys("PROJECT_ID")
   end
 
+  private_lane :update_manifest do 
+    # change both host entries
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
+
+    xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV["PROJECT_APP_NAME"])
+  end
+
   desc "Build the app"
   lane :development do
+    update_manifest()
     gradle(task: "clean assembleRelease")
   end
 end

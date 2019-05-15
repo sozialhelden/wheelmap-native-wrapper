@@ -4,8 +4,8 @@ class Constants {
     companion object {
 
         // Root page
-        const val WEBAPP_URL = "https://wheelmap.org/"
         const val WEBAPP_HOST = "wheelmap.org" // used for checking Intent-URLs
+        const val WEBAPP_URL = "https://$WEBAPP_HOST"
 
         // User Agent tweaks
         const val POSTFIX_USER_AGENT = true // set to true to append USER_AGENT_POSTFIX to user agent
