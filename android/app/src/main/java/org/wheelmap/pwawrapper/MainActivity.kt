@@ -1,6 +1,7 @@
 package org.wheelmap.pwawrapper
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.wheelmap.pwawrapper.ui.UIManager
@@ -69,6 +70,22 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (!webViewHelper!!.goBack()) {
             super.onBackPressed()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val requestFineLocationCode = 1
+        when (requestCode) {
+            requestFineLocationCode -> {
+                var allow = false
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // user has allowed this permission
+                    allow = true
+                }
+
+                webViewHelper!!.locationAccessGranted(allow)
+            }
         }
     }
 }

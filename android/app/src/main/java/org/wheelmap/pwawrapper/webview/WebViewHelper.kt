@@ -1,27 +1,34 @@
 package org.wheelmap.pwawrapper.webview
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Message
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.webkit.*
 import org.wheelmap.pwawrapper.Constants
 import org.wheelmap.pwawrapper.R
 import org.wheelmap.pwawrapper.ui.UIManager
 
-class WebViewHelper(// Instance variables
-        private val activity: Activity, private val uiManager: UIManager) {
+
+class WebViewHelper(private val activity: Activity, private val uiManager: UIManager) {
     private val webView: WebView
     private val webSettings: WebSettings
+
+    private var geolocationOrigin: String? = null
+    private var geolocationCallback: GeolocationPermissions.Callback? = null
 
     /**
      * Simple helper method checking if connected to Network.
@@ -42,7 +49,7 @@ class WebViewHelper(// Instance variables
         }
 
     init {
-        val view = activity.findViewById<View>(R.id.webView) as WebView
+        val view = activity.findViewById<View>(org.wheelmap.pwawrapper.R.id.webView) as WebView
         this.webView = view
         this.webSettings = webView.settings
     }
@@ -56,11 +63,16 @@ class WebViewHelper(// Instance variables
         }
     }
 
+
     // public method changing cache settings according to network availability.
     // retrieve content from cache primarily if not connected,
     // allow fetching from web too otherwise to get updates.
     fun forceCacheIfOffline() {
         useCache(!isNetworkAvailable)
+    }
+
+    fun locationAccessGranted(allow: Boolean) {
+        geolocationCallback?.invoke(geolocationOrigin, allow, allow)
     }
 
     // handles initial setup of webview
@@ -70,6 +82,10 @@ class WebViewHelper(// Instance variables
         // enable JS
         @SuppressLint("SetJavaScriptEnabled")
         webSettings.javaScriptEnabled = true
+
+        webSettings.setGeolocationEnabled(true)
+        webSettings.setGeolocationDatabasePath(activity.applicationContext.filesDir.absolutePath)
+
         // must be set for our js-popup-blocker:
         webSettings.setSupportMultipleWindows(true)
 
@@ -107,17 +123,40 @@ class WebViewHelper(// Instance variables
 
         // enable HTML5-support
         webView.webChromeClient = object : WebChromeClient() {
+
+
             //simple yet effective redirect/popup blocker
             override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message): Boolean {
                 val href = view.handler.obtainMessage()
                 view.requestFocusNodeHref(href)
                 val popupUrl = href.data.getString("url")
                 if (popupUrl != null) {
-                    //it's null for most rouge browser hijack ads
+                    //it's null for most rogue browser hijack ads
                     webView.loadUrl(popupUrl)
                     return true
                 }
                 return false
+            }
+
+            override fun onGeolocationPermissionsShowPrompt(origin: String, callback: GeolocationPermissions.Callback) {
+                // Geolocation permissions coming from this app's Manifest will only be valid for devices with
+                // API_VERSION < 23. On API 23 and above, we must check for permissions, and possibly
+                // ask for them.
+                val perm = Manifest.permission.ACCESS_FINE_LOCATION
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(activity, perm) == PackageManager.PERMISSION_GRANTED) {
+                    // we're on SDK < 23 OR user has already granted permission
+                    callback.invoke(origin, true, true)
+                } else {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, perm)) {
+                        // ask the user for permission
+                        val requestFineLocationCode = 1
+                        ActivityCompat.requestPermissions(activity, arrayOf(perm), requestFineLocationCode)
+
+                        // we will use these when user responds
+                        geolocationOrigin = origin
+                        geolocationCallback = callback
+                    }
+                }
             }
 
             // update ProgressBar
