@@ -51,6 +51,7 @@ platform :ios do
       plist_path: 'ios-pwa-wrapper/Info.plist',
       display_name: ENV["PROJECT_APP_NAME"]
     )
+    create_icon()
     # Make a build 
     gym(
       export_method: options[:export_method],
@@ -66,19 +67,19 @@ platform :ios do
       # env options
       output_name: ENV["PROJECT_APP_NAME"],
     )
-  end  
+  end
 
-  desc "Icon"
   lane :create_icon do
     project = ENV["PROJECT_ENV"]
-
     appicon(
-      appicon_image_file: "../env/#{project}/icon-1024.png",
+      appicon_image_file: "../env/#{project}/AppIcon.png",
       appicon_path: "ios-pwa-wrapper/Images.xcassets",
       appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing]
     )
   end
 
+  ######################### PUBLIC LANES ###########################
+  #------------------------ Local build ---------------------------#
   desc "Creates a local build of the app, configured from the env/project"
   lane :development do
 
