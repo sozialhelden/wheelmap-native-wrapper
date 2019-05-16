@@ -14,6 +14,9 @@
 		2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */; };
 		2DC96ADE1FA5DD32006B5881 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC96ADD1FA5DD32006B5881 /* Constants.swift */; };
 		74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */ = {isa = PBXBuildFile; fileRef = 74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */; };
+		74E1C2DA228D8A9C0047EA0B /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */; };
+		74E1C2DC228D8CE40047EA0B /* Config.env in Resources */ = {isa = PBXBuildFile; fileRef = 74E1C2DB228D8CE40047EA0B /* Config.env */; };
+		74E1C2DE228D94390047EA0B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E1C2DD228D94390047EA0B /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		2DC96ADD1FA5DD32006B5881 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		74DED3F322899FF300D4CBD1 /* ios-pwa-wrapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-pwa-wrapper.entitlements"; sourceTree = "<group>"; };
 		74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = InjectLocation.js; sourceTree = "<group>"; };
+		74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigLoader.swift; sourceTree = "<group>"; };
+		74E1C2DB228D8CE40047EA0B /* Config.env */ = {isa = PBXFileReference; lastKnownFileType = text; path = Config.env; sourceTree = "<group>"; };
+		74E1C2DD228D94390047EA0B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +77,9 @@
 				2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */,
 				2D504BFD1FA100E20019B279 /* Info.plist */,
 				2DC96ADD1FA5DD32006B5881 /* Constants.swift */,
+				74E1C2DD228D94390047EA0B /* Colors.swift */,
+				74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */,
+				74E1C2DB228D8CE40047EA0B /* Config.env */,
 			);
 			path = "ios-pwa-wrapper";
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 				2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */,
 				2D504BF91FA100E20019B279 /* Images.xcassets in Resources */,
 				74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */,
+				74E1C2DC228D8CE40047EA0B /* Config.env in Resources */,
 				2D504BF41FA100E20019B279 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,7 +179,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D504BF11FA100E20019B279 /* ViewController.swift in Sources */,
+				74E1C2DE228D94390047EA0B /* Colors.swift in Sources */,
 				2D504BEF1FA100E20019B279 /* AppDelegate.swift in Sources */,
+				74E1C2DA228D8A9C0047EA0B /* ConfigLoader.swift in Sources */,
 				2DC96ADE1FA5DD32006B5881 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

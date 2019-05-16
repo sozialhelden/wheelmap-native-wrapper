@@ -7,3 +7,4 @@ PROJECT_APP_NAME = "Framefield" # App Name
 PROJECT_BUNDLE_ID = "com.framefield.wheelmap.test" # Project Bundle Id 'com.project.name'
 
 PROJECT_HOST_NAME = "framefield.com"
+PROJECT_PRIMARY_COLOR = "9DF359"

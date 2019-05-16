@@ -1,9 +1,13 @@
 import UIKit
 
-// Basic App-/WebView-configuration
-let appTitle = "iOS PWA Wrapper"
+let filepath = Bundle.main.path(forResource: "Config.env", ofType: nil)
+let config : [String:String] = filepath != nil ? ConfigLoader.loadDotEnvFile(filename: filepath!) : [:]
 
-let webAppHost = "wheelmap.org"
+// Basic App-/WebView-configuration
+let appTitle = config["PROJECT_APP_NAME", default: "Wheelmap"]
+let webAppHost = config["PROJECT_HOST_NAME", default: "wheelmap.org"]
+let primaryColor = config["PROJECT_PRIMARY_COLOR", default: "9DF359"]
+
 let webAppUrl = URL(string: "https://\(webAppHost)")
 
 let useUserAgentPostfix = true
@@ -17,20 +21,13 @@ let forceLargeTitle = false
 
 // Colors & Styles
 let useLightStatusBarStyle = true
-let navigationBarColor = getColorFromHex(hex: 0xF44336, alpha: 1.0)
-let navigationTitleColor = getColorFromHex(hex: 0x000000, alpha: 1.0)
-let navigationButtonColor = navigationTitleColor
-let progressBarColor = getColorFromHex(hex: 0x4CAF50, alpha: 1.0)
+
+let navigationBarColor = fromHex(hex: primaryColor)
+
 let offlineIconColor = UIColor.darkGray
+
+let progressBarColor = navigationBarColor
+let navigationTitleColor = navigationBarColor
+let navigationButtonColor = navigationBarColor
 let buttonColor = navigationBarColor
 let activityIndicatorColor = navigationBarColor
-
-// Color Helper function
-func getColorFromHex(hex: UInt, alpha: CGFloat) -> UIColor {
-    return UIColor(
-        red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-        green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
-        blue: CGFloat(hex & 0x0000FF) / 255.0,
-        alpha: CGFloat(alpha)
-    )
-}

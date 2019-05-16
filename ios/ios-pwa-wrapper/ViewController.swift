@@ -59,19 +59,23 @@ class ViewController: UIViewController {
         config.userContentController = contentController
         config.preferences.javaScriptEnabled = true
         
-        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: webViewContainer.frame.width, height: webViewContainer.frame.height), configuration: config)
+        webView = WKWebView(frame: webViewContainer.frame, configuration: config)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+        
         if #available(iOS 11.0, *) {
+            self.additionalSafeAreaInsets = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
             webView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.contentInsetAdjustmentBehavior = .never
         }
+        
         if #available(iOS 10.0, *) {
             webView.configuration.ignoresViewportScaleLimits = false
         }
+        
         // user agent
         if #available(iOS 9.0, *) {
             if (useCustomUserAgent) {
@@ -95,7 +99,6 @@ class ViewController: UIViewController {
         webView.scrollView.bounces = false
         webView.allowsBackForwardNavigationGestures = false
         
-
         // init observers
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: NSKeyValueObservingOptions.new, context: nil)
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: NSKeyValueObservingOptions.new, context: nil)
@@ -179,6 +182,7 @@ extension ViewController: WKUIDelegate {
         }
         return nil
     }
+    
     // restrict navigation to target host, open external links in 3rd party apps
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         print("decidePolicyFor: \(navigationAction)")
