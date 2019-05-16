@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,7 +13,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ios_pwa_wrapper" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -24,7 +23,6 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" updatesFrequently="YES"/>
                                 </accessibility>
-                                <viewLayoutGuide key="safeArea" id="vFC-Yp-kxK"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P71-RQ-w3Y" userLabel="Offline View">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -58,18 +56,18 @@
                                     <constraint firstItem="PAe-DD-sEP" firstAttribute="leading" secondItem="P71-RQ-w3Y" secondAttribute="leading" id="Vx8-ru-pdt"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yda-zQ-zIG">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yda-zQ-zIG">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Khc-j7-EfD">
+                                    <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Khc-j7-EfD">
                                         <rect key="frame" x="188" y="430" width="37" height="37"/>
                                         <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="Khc-j7-EfD" firstAttribute="centerY" secondItem="yda-zQ-zIG" secondAttribute="centerY" id="F6O-00-Bud"/>
-                                    <constraint firstItem="Khc-j7-EfD" firstAttribute="centerX" secondItem="yda-zQ-zIG" secondAttribute="centerX" id="FyK-Za-tc5"/>
+                                    <constraint firstItem="Khc-j7-EfD" firstAttribute="centerY" secondItem="yda-zQ-zIG" secondAttribute="centerY" id="Ad5-lK-l92"/>
+                                    <constraint firstItem="Khc-j7-EfD" firstAttribute="centerX" secondItem="yda-zQ-zIG" secondAttribute="centerX" id="YAF-MJ-ORh"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -78,11 +76,15 @@
                             <constraint firstItem="HnO-cS-a4I" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4Ug-Ri-DYo"/>
                             <constraint firstItem="HnO-cS-a4I" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="6t2-kT-aXm"/>
                             <constraint firstItem="P71-RQ-w3Y" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="7Mx-39-uRU"/>
+                            <constraint firstItem="yda-zQ-zIG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Bxn-Rd-Sxf"/>
                             <constraint firstItem="HnO-cS-a4I" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="JRX-v6-mMT"/>
+                            <constraint firstItem="yda-zQ-zIG" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="NUj-ci-kkb"/>
                             <constraint firstItem="P71-RQ-w3Y" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Orj-az-JIO"/>
                             <constraint firstItem="P71-RQ-w3Y" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="TlA-35-iyi"/>
                             <constraint firstItem="HnO-cS-a4I" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="YQr-yE-Fj0"/>
+                            <constraint firstItem="yda-zQ-zIG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gNO-NT-EuC"/>
                             <constraint firstItem="P71-RQ-w3Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wb5-bQ-9sI"/>
+                            <constraint firstItem="yda-zQ-zIG" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="zZe-5t-CKa"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="COK-wh-4k6"/>
