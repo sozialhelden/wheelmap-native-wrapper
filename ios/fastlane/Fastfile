@@ -69,7 +69,7 @@ platform :ios do
     )
   end
 
-  lane :create_icon do
+  private_lane :create_icon do
     project = ENV["PROJECT_ENV"]
     appicon(
       appicon_image_file: "../env/#{project}/AppIcon.png",

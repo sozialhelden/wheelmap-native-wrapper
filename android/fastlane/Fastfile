@@ -24,7 +24,7 @@ platform :android do
     xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV["PROJECT_APP_NAME"])
   end
 
-  lane :create_icon do
+  private_lane :create_icon do
     project = ENV["PROJECT_ENV"]
 
     android_appicon(
