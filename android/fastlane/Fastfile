@@ -8,7 +8,7 @@ platform :android do
   before_all do
     Dotenv.require_keys("PROJECT_ENV")
 
-    project = ENV["PROJECT_ENV"];
+    project = ENV["PROJECT_ENV"]
 
     puts "PROJECT_ENV: #{project}"
     # path relative to Fastfile
@@ -24,8 +24,25 @@ platform :android do
     xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV["PROJECT_APP_NAME"])
   end
 
+  lane :create_icon do
+    project = ENV["PROJECT_ENV"]
+
+    android_appicon(
+      appicon_image_file: "../env/#{project}/AppIcon.png",
+      appicon_icon_types: [:launcher],
+      appicon_path: 'app/src/main/res/mipmap'
+    )    
+    android_appicon(
+      appicon_image_file: "../env/#{project}/NotificationIcon.png",
+      appicon_icon_types: [:notification],
+      appicon_path: 'app/src/main/res/drawable',
+      appicon_filename: 'ic_appbar'
+    )
+  end
+
   desc "Build the app"
   lane :development do
+    create_icon()
     update_manifest()
     gradle(task: "clean assembleRelease")
   end
