@@ -64,7 +64,11 @@ class ViewController: UIViewController {
         webView.uiDelegate = self
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        
+        if #available(iOS 11.0, *) {
+            webView.insetsLayoutMarginsFromSafeArea = true
+            webView.scrollView.insetsLayoutMarginsFromSafeArea = true
+            webView.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         if #available(iOS 10.0, *) {
             webView.configuration.ignoresViewportScaleLimits = false
         }
