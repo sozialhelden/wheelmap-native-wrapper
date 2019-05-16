@@ -19,3 +19,7 @@ Install the bundles
 
     bundle install
 
+Install graphicsmagick for icon generation
+
+    brew install graphicsmagick
+

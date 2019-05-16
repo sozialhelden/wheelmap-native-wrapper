@@ -8,16 +8,16 @@ EXPORT_METHOD_AD_HOC = "ad-hoc"
 EXPORT_METHOD_APP_STORE = "app-store"
 EXPORT_METHOD_DEVELOPMENT = "development"
 
-
 platform :ios do
   before_all do
     Dotenv.require_keys("PROJECT_ENV")
 
-    project = ENV["PROJECT_ENV"];
+    project = ENV["PROJECT_ENV"]
 
     puts "PROJECT_ENV: #{project}"
     # path relative to Fastfile
     res = Dotenv.load("../../env/#{project}/Configuration")
+    # ensure project conf was loaded
     Dotenv.require_keys("PROJECT_ID")
   end
 
@@ -68,7 +68,18 @@ platform :ios do
     )
   end  
 
-  desc "Description of what the lane does"
+  desc "Icon"
+  lane :create_icon do
+    project = ENV["PROJECT_ENV"]
+
+    appicon(
+      appicon_image_file: "../env/#{project}/icon-1024.png",
+      appicon_path: "ios-pwa-wrapper/Images.xcassets",
+      appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing]
+    )
+  end
+
+  desc "Creates a local build of the app, configured from the env/project"
   lane :development do
 
     build(export_method: EXPORT_METHOD_DEVELOPMENT)

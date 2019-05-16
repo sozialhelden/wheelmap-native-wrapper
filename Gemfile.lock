@@ -64,6 +64,9 @@ GEM
       xcodeproj (>= 1.8.1, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-appicon (0.14.0)
+      json
+      mini_magick (~> 4.5.1)
     fastlane-plugin-xml_editor (0.2.0)
       nokogiri (~> 1.8.0)
       plist (~> 3.3.0)
@@ -160,6 +163,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane (~> 2.122)
+  fastlane-plugin-appicon
   fastlane-plugin-xml_editor (~> 0.2.0)
 
 BUNDLED WITH
