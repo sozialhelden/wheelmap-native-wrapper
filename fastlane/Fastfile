@@ -1,0 +1,97 @@
+# update_fastlane
+
+fastlane_require 'dotenv'
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    Dotenv.require_keys("PROJECT_ENV")
+
+    project = ENV["PROJECT_ENV"]
+
+    puts "PROJECT_ENV: #{project}"
+    # path relative to Fastfile
+    res = Dotenv.load("../env/#{project}/Configuration")
+    # ensure project conf was loaded
+    Dotenv.require_keys("PROJECT_ID")
+  end
+
+  ######################### PRIVATE LANES ##########################
+  #--------------------- Building the project ---------------------#
+  private_lane :build do |options|
+    match(type: options[:export_method])
+    # Build the iOS app, with enabling the code signing automatically
+    automatic_code_signing(
+      use_automatic_signing: true,
+      path: "ios/ios-pwa-wrapper.xcodeproj"
+    )
+    # Set bundle & app name
+    update_app_identifier(
+      plist_path: '../ios/ios-pwa-wrapper/Info.plist',
+      app_identifier: ENV["PROJECT_BUNDLE_ID"],
+      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+    )
+    update_info_plist(
+      plist_path: 'ios-pwa-wrapper/Info.plist',
+      display_name: ENV["PROJECT_APP_NAME"],
+      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+    )
+    create_icon()
+  end
+
+  private_lane :create_icon do
+    project = ENV["PROJECT_ENV"]
+    appicon(
+      appicon_image_file: "env/#{project}/AppIcon.png",
+      appicon_path: "ios/ios-pwa-wrapper/Images.xcassets",
+      appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing]
+    )
+  end
+
+  ######################### PUBLIC LANES ###########################
+  #------------------------ Local build ---------------------------#
+  desc "Creates a local build of the app, configured from the env/project"
+  lane :development do
+    build(export_method: 'development')
+  end
+
+  lane :release_build do
+    build(export_method: 'appstore')
+    gym(
+      export_method: 'app-store',
+      # static options
+      configuration: "Release",
+      project: "ios/ios-pwa-wrapper.xcodeproj",
+      scheme: "ios-pwa-wrapper",
+      output_directory: "fastlane/ipa",
+      xcargs: "-allowProvisioningUpdates",
+      export_xcargs: "-allowProvisioningUpdates",
+      silent: false,
+      clean: true,
+      suppress_xcode_output: false,
+      # env options
+      output_name: ENV["PROJECT_APP_NAME"],
+    )
+  end
+
+  desc "Deploys a release build of the app, configured from the env/project"
+  lane :app_store do
+    # upload_to_testflight(
+    #   ipa: './platforms/ios/build/device/Wheelmap.ipa'
+    # )
+    release_build
+    # TODO: Upload to store
+  end
+
+  desc "Creates a beta build of the app, configured from the env/project"
+  lane :beta do
+    release_build
+    # upload_to_testflight(
+    #   ipa: './platforms/ios/build/device/Wheelmap.ipa'
+    # )
+    upload_to_testflight(
+      ipa: "fastlane/ipa/#{ENV["PROJECT_APP_NAME"]}.ipa"
+    )
+  end
+end

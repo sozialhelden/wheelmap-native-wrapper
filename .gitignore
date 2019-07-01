@@ -1,2 +1,8 @@
 .DS_Store
 .envfastlane/report.xml
+/.bundle
+/vendor
+fastlane/ipa/
+fastlane/certificate/
+/ios/ios-pwa-wrapper/Images.xcassets/AppIcon.appiconset/*.png
+/fastlane/report.xml
