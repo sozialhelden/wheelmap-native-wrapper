@@ -13,7 +13,7 @@ Install the latest Xcode command line tools:
 
 Install bundle using
 
-    sudo gem install bundle -NV
+    sudo gem install bundler -NV
 
 Install the bundles
 
