@@ -57,6 +57,7 @@ end
 platform :android do
   manifestFile = './android/app/src/main/AndroidManifest.xml'
   appNameStringsFile = './android/app/src/main/res/values/strings.xml'
+  apkPath = 'android/app/build/outputs/apk/release/app-release-unsigned.apk'
 
   ######################### PRIVATE LANES ##########################
 
@@ -96,21 +97,55 @@ platform :android do
 
   desc 'Build the app package locally'
   lane :development do
-    configure
+    configure()
     gradle(
       project_dir: './android/',
-      task: 'clean assembleRelease'
+      build_type: "Debug",
+      task: 'clean assemble'
     )
   end
 
-  desc 'Test notification!'
-  lane :test_notify do
+  desc 'Make a release build'
+  lane :release_build do |options|
+    configure()
+
+    # strip out invalid fields
+    sign_options = {
+      "android.injected.signing.store.file" => File.expand_path(ENV["ANDROID_KEYSTORE_PATH"]),
+      "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
+      "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"] || '',
+      "android.injected.signing.key.password" => ENV["ANDROID_KEYSTORE_PASSWORD"] || '',
+    }
+
+    gradle(
+      project_dir: './android/',
+      build_type: options[:build_type] || 'Release',
+      task: 'assemble',
+      print_command: false, # hide signing from logs
+      properties: sign_options
+    )
+  end
+
+  desc 'Build the app package and deploy to hockey app and play store beta'
+  lane :beta do
+    increment_version_code()
+    release_build(build_type: 'playstore')
+    apk_file_name = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH];
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN_ANDROID'],
+      apk: apk_file_name
+    )
+    supply(
+      apk: apk_file_name,
+      track: 'beta',
+      package_name: ENV['ANDROID_PROJECT_APP_ID']
+    )
     notify_deployment(
       message: 'Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening the beta link on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.',
       payload: {
-        'App Download URL' => 'TBD', # lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
-        'Version' => 'TBD',
-        'Beta Test Url' => ENV['ANDROID_BETA_TEST_URL'],
+        'App Download URL' => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        'Project' => ENV['PROJECT_ENV'],
+        'Beta Test Url' => ENV['ANDROID_BETA_TEST_URL']
       }
     )
   end
@@ -125,7 +160,9 @@ platform :ios do
 
   desc 'Configure the project from the environent'
   private_lane :configure do |options|
-    match(type: options[:export_method])
+    match(
+      type: options[:export_method]
+    )
     # Build the iOS app, with enabling the code signing automatically
     automatic_code_signing(
       use_automatic_signing: true,
@@ -164,7 +201,7 @@ platform :ios do
     sh('open', "../#{xcodeprojPath}")
   end
 
-  #--------------------- Create the app icons  ---------------------#
+  desc 'Make a release build'
   lane :release_build do
     configure(export_method: 'appstore')
     gym(

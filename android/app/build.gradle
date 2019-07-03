@@ -9,13 +9,26 @@ android {
         applicationId "$System.env.ANDROID_PROJECT_APP_ID"
         minSdkVersion 20
         targetSdkVersion 28
-        versionCode 1
+        versionCode 6
         versionName "5.0"
+    }
+    signingConfigs {
+        playstore {
+            storeFile file(project.findProperty('android.injected.signing.store.file'))
+            storePassword project.findProperty('android.injected.signing.store.password')
+            keyAlias project.findProperty('android.injected.signing.key.alias')
+            keyPassword project.findProperty('android.injected.signing.key.password')
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        playstore {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.playstore
         }
     }
 }

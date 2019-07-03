@@ -21,11 +21,16 @@ or alternatively using `brew cask install fastlane`
 fastlane android development
 ```
 Build the app package locally
-### android test_notify
+### android release_build
 ```
-fastlane android test_notify
+fastlane android release_build
 ```
-Test notification!
+Make a release build
+### android beta
+```
+fastlane android beta
+```
+Build the app package and deploy to hockey app and play store beta
 
 ----
 
@@ -39,7 +44,7 @@ Creates a local build of the app, configured from the env/project
 ```
 fastlane ios release_build
 ```
-
+Make a release build
 ### ios app_store
 ```
 fastlane ios app_store
