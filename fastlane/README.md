@@ -20,7 +20,7 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane android development
 ```
-Build the app
+Build the app package locally
 
 ----
 
@@ -44,7 +44,7 @@ Deploys a release build of the app, configured from the env/project
 ```
 fastlane ios beta
 ```
-Creates a beta build of the app, configured from the env/project
+Deploys a beta build of the app to testflight, configured from the env/project
 
 ----
 
