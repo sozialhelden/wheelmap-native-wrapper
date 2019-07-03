@@ -21,6 +21,11 @@ or alternatively using `brew cask install fastlane`
 fastlane android development
 ```
 Build the app package locally
+### android test_notify
+```
+fastlane android test_notify
+```
+Test notification!
 
 ----
 

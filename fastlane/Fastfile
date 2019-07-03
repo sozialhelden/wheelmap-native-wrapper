@@ -1,15 +1,57 @@
-
 fastlane_require 'dotenv'
+fastlane_require 'pp'
 
-Dotenv.require_keys("PROJECT_ENV")
+before_all do
+  Dotenv.require_keys('PROJECT_ENV')
 
-project = ENV["PROJECT_ENV"]
-puts "PROJECT_ENV: #{project}"
-# path relative to Fastfile
-res = Dotenv.load("../env/#{project}/Configuration")
+  project = ENV['PROJECT_ENV']
+  UI.message("Building for project environment #{project}")
+  # path relative to Fastfile
+  configurationPath = "../env/#{project}/Configuration.env"
+  secretPath = "../env/#{project}/Secret.env"
 
-Dotenv.require_keys("PROJECT_ID")
+  confLoaded = Dotenv.load(configurationPath)
+  secretLoaded = Dotenv.overload(secretPath)
 
+  if confLoaded.empty?
+    UI.crash!("🐞 Environment in #{configurationPath} was not found or is empty.")
+  end
+
+  if secretLoaded.empty?
+    UI.error("⚠️ Environment in #{secretPath} was not found or is empty. Not all integrations will work.")
+  end
+
+  Dotenv.require_keys('PROJECT_ID')
+end
+
+desc 'Configure the project from the environent'
+private_lane :notify_deployment do |options|
+  message = options[:message]
+  payload = options[:payload].compact
+
+  should_post_on_slack = ENV['SLACK_URL'] && ENV['SLACK_USERNAME']
+
+  UI.message(message)
+  payload.each do |key, value|
+    UI.message "#{key} => #{value}"
+  end
+  
+  if should_post_on_slack
+    slack(
+      message: message,
+      username: ENV['SLACK_USERNAME'],
+      slack_url: ENV['SLACK_URL'],
+      channel: ENV['SLACK_CHANNEL'], # Optional, by default will post to the default channel configured for the POST URL.
+      success: true, # Optional, defaults to true.
+      payload: payload,
+      default_payloads: [], # Optional, lets you specify a whitelist of default payloads to include. Pass an empty array to suppress all the default payloads.
+      # Don't add this key, or pass nil, if you want all the default payloads. The available default payloads are: `lane`, `test_result`, `git_branch`, `git_author`, `last_git_commit_message`, `last_git_commit_hash`.
+      attachment_properties: { # Optional, lets you specify any other properties available for attachments in the slack API (see https://api.slack.com/docs/attachments).
+        # This hash is deep merged with the existing properties set using the other properties above. This allows your own fields properties to be appended to the existing fields that were created using the `payload` property for instance.
+      }
+    )
+  end
+end
 
 ### ------------ ANDROID ------------ ###
 platform :android do
@@ -18,30 +60,30 @@ platform :android do
 
   ######################### PRIVATE LANES ##########################
 
-  desc "Configure the project from the environent"
-  private_lane :configure do |options|
-    create_icons()
-    update_manifest()
+  desc 'Configure the project from the environent'
+  private_lane :configure do |_options|
+    create_icons
+    update_manifest
   end
 
-  desc "Fill the correct values into the manifest file"
-  private_lane :update_manifest do 
+  desc 'Fill the correct values into the manifest file'
+  private_lane :update_manifest do
     # change both host entries
-    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
-    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
 
-    xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV["PROJECT_APP_NAME"])
+    xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV['PROJECT_APP_NAME'])
   end
 
-  desc "Create the app icons"
+  desc 'Create the app icons'
   private_lane :create_icons do
-    project = ENV["PROJECT_ENV"]
+    project = ENV['PROJECT_ENV']
 
     android_appicon(
       appicon_image_file: "./env/#{project}/AppIcon.png",
       appicon_icon_types: [:launcher],
       appicon_path: 'android/app/src/main/res/mipmap'
-    )    
+    )
     android_appicon(
       appicon_image_file: "./env/#{project}/NotificationIcon.png",
       appicon_icon_types: [:notification],
@@ -52,63 +94,74 @@ platform :android do
 
   ######################### PUBLIC LANES ###########################
 
-  desc "Build the app package locally"
+  desc 'Build the app package locally'
   lane :development do
-    configure()
+    configure
     gradle(
-      project_dir: "./android/",
-      task: "clean assembleRelease"
+      project_dir: './android/',
+      task: 'clean assembleRelease'
+    )
+  end
+
+  desc 'Test notification!'
+  lane :test_notify do
+    notify_deployment(
+      message: 'Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening the beta link on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.',
+      payload: {
+        'App Download URL' => 'TBD', # lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        'Version' => 'TBD',
+        'Beta Test Url' => ENV['ANDROID_BETA_TEST_URL'],
+      }
     )
   end
 end
 
 ### ------------ IOS ------------ ###
 platform :ios do
-
   xcodeprojPath = 'ios/ios-pwa-wrapper.xcodeproj'
   plistPath = 'ios-pwa-wrapper/Info.plist'
 
   ######################### PRIVATE LANES ##########################
 
-  desc "Configure the project from the environent"
+  desc 'Configure the project from the environent'
   private_lane :configure do |options|
     match(type: options[:export_method])
     # Build the iOS app, with enabling the code signing automatically
     automatic_code_signing(
       use_automatic_signing: true,
-      path: xcodeprojPath,
+      path: xcodeprojPath
     )
     # Set bundle & app name
     update_app_identifier(
       plist_path: plistPath,
-      app_identifier: ENV["IOS_PROJECT_BUNDLE_ID"],
-      xcodeproj: xcodeprojPath,
+      app_identifier: ENV['IOS_PROJECT_BUNDLE_ID'],
+      xcodeproj: xcodeprojPath
     )
     update_info_plist(
       plist_path: plistPath,
-      display_name: ENV["PROJECT_APP_NAME"],
-      xcodeproj: xcodeprojPath,
+      display_name: ENV['PROJECT_APP_NAME'],
+      xcodeproj: xcodeprojPath
     )
-    create_icons()
+    create_icons
   end
 
-  desc "Create the app icons"
+  desc 'Create the app icons'
   private_lane :create_icons do
-    project = ENV["PROJECT_ENV"]
+    project = ENV['PROJECT_ENV']
     appicon(
       appicon_image_file: "env/#{project}/AppIcon.png",
-      appicon_path: "ios/ios-pwa-wrapper/Images.xcassets",
-      appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing]
+      appicon_path: 'ios/ios-pwa-wrapper/Images.xcassets',
+      appicon_devices: %i[ipad iphone ios_marketing watch watch_marketing]
     )
   end
 
   ######################### PUBLIC LANES ###########################
 
-  desc "Creates a local build of the app, configured from the env/project"
+  desc 'Creates a local build of the app, configured from the env/project'
   lane :development do
     configure(export_method: 'development')
     # open in xcode, relative to fastlane path
-    sh("open", "../#{xcodeprojPath}")
+    sh('open', "../#{xcodeprojPath}")
   end
 
   #--------------------- Create the app icons  ---------------------#
@@ -117,37 +170,37 @@ platform :ios do
     gym(
       export_method: 'app-store',
       # static options
-      configuration: "Release",
+      configuration: 'Release',
       project: xcodeprojPath,
-      scheme: "ios-pwa-wrapper",
-      output_directory: "fastlane/ipa",
-      xcargs: "-allowProvisioningUpdates",
-      export_xcargs: "-allowProvisioningUpdates",
+      scheme: 'ios-pwa-wrapper',
+      output_directory: 'fastlane/ipa',
+      xcargs: '-allowProvisioningUpdates',
+      export_xcargs: '-allowProvisioningUpdates',
       silent: false,
       clean: true,
       suppress_xcode_output: false,
       # env options
-      output_name: ENV["PROJECT_APP_NAME"],
+      output_name: ENV['PROJECT_APP_NAME']
     )
   end
 
-  desc "Deploys a release build of the app, configured from the env/project"
+  desc 'Deploys a release build of the app, configured from the env/project'
   lane :app_store do
     increment_build_number(
-      xcodeproj: xcodeprojPath,
+      xcodeproj: xcodeprojPath
     )
-    release_build()
+    release_build
     # TODO: Upload to store
   end
 
-  desc "Deploys a beta build of the app to testflight, configured from the env/project"
+  desc 'Deploys a beta build of the app to testflight, configured from the env/project'
   lane :beta do
     increment_build_number(
-      xcodeproj: xcodeprojPath,
+      xcodeproj: xcodeprojPath
     )
-    release_build()
+    release_build
     upload_to_testflight(
-      ipa: "fastlane/ipa/#{ENV["PROJECT_APP_NAME"]}.ipa"
+      ipa: "fastlane/ipa/#{ENV['PROJECT_APP_NAME']}.ipa"
     )
   end
 end

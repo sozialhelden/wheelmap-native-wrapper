@@ -32,3 +32,6 @@ fastlane/screenshots/*/*-landscape_framed.png
 fastlane/README.md
 fastlane/certificate
 fastlane/ipa
+
+env/**/Secret.env
+
