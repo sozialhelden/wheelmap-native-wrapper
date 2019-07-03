@@ -136,6 +136,9 @@ platform :ios do
 
   desc "Deploys a beta build of the app to testflight, configured from the env/project"
   lane :beta do
+    increment_build_number(
+      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+    )
     release_build()
     upload_to_testflight(
       ipa: "fastlane/ipa/#{ENV["PROJECT_APP_NAME"]}.ipa"
