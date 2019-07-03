@@ -1,10 +1,14 @@
 PROJECT_ID = "wheelmap.org" # Name of this configuration
 
-TEAM_ID = "LY797X36V6" # Team id, from developer account details
-TEAM_NAME = "Sozialhelden e.V." # Team name, from developer account
+APPLE_APPSTORE_CONNECT_TEAM_ID = 422407 # iOS build Team id, from appstore connect account details
+APPLE_APPSTORE_CONNECT_TEAM_NAME = "Sozialhelden e.V." # Team name, from appstore connect account details
+APPLE_DEVELOPER_TEAM_ID = "LY797X36V6" # iOS build Team id, from developer account details
+APPLE_DEVELOPER_TEAM_NAME = "Sozialhelden e.V." # Team name, from developer account details
+
+IOS_PROJECT_BUNDLE_ID = "de.sozialhelden.wheelmap.iphone" # iOS Project Bundle Id 'com.project.name'
+ANDROID_PROJECT_APP_ID = "org.wheelmap.android.online" # Android Project App Id 'com.project.name'
+
 
 PROJECT_APP_NAME = "Wheelmap" # App Name
-PROJECT_BUNDLE_ID = "de.sozialhelden.wheelmap.iphone" # Project Bundle Id 'com.project.name'
-
-PROJECT_HOST_NAME = "wheelmap.tech"
-PROJECT_PRIMARY_COLOR = "9DF359"
+PROJECT_HOST_NAME = "wheelmap.tech" # Host of wheelmap-react-frontend
+PROJECT_PRIMARY_COLOR = "9DF359" # Color for various native elements

@@ -1,21 +1,56 @@
-# update_fastlane
 
 fastlane_require 'dotenv'
 
-default_platform(:ios)
+Dotenv.require_keys("PROJECT_ENV")
+project = ENV["PROJECT_ENV"]
+puts "PROJECT_ENV: #{project}"
+# path relative to Fastfile
+res = Dotenv.load("../env/#{project}/Configuration")
+Dotenv.require_keys("PROJECT_ID")
 
-platform :ios do
-  before_all do
-    Dotenv.require_keys("PROJECT_ENV")
 
+### ------------ ANDROID ------------
+platform :android do
+  manifestFile = './android/app/src/main/AndroidManifest.xml'
+  appNameStringsFile = './android/app/src/main/res/values/strings.xml'
+
+  private_lane :update_manifest do 
+    # change both host entries
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
+    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV["PROJECT_HOST_NAME"])
+
+    xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV["PROJECT_APP_NAME"])
+  end
+
+  private_lane :create_icon do
     project = ENV["PROJECT_ENV"]
 
-    puts "PROJECT_ENV: #{project}"
-    # path relative to Fastfile
-    res = Dotenv.load("../env/#{project}/Configuration")
-    # ensure project conf was loaded
-    Dotenv.require_keys("PROJECT_ID")
+    android_appicon(
+      appicon_image_file: "./env/#{project}/AppIcon.png",
+      appicon_icon_types: [:launcher],
+      appicon_path: 'android/app/src/main/res/mipmap'
+    )    
+    android_appicon(
+      appicon_image_file: "./env/#{project}/NotificationIcon.png",
+      appicon_icon_types: [:notification],
+      appicon_path: 'android/app/src/main/res/drawable',
+      appicon_filename: 'ic_appbar'
+    )
   end
+
+  desc "Build the app"
+  lane :development do
+    create_icon()
+    update_manifest()
+    gradle(
+      project_dir: "./android/",
+      task: "clean assembleRelease"
+    )
+  end
+end
+
+### ------------ IOS ------------
+platform :ios do
 
   ######################### PRIVATE LANES ##########################
   #--------------------- Building the project ---------------------#
@@ -29,7 +64,7 @@ platform :ios do
     # Set bundle & app name
     update_app_identifier(
       plist_path: '../ios/ios-pwa-wrapper/Info.plist',
-      app_identifier: ENV["PROJECT_BUNDLE_ID"],
+      app_identifier: ENV["IOS_PROJECT_BUNDLE_ID"],
       xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
     )
     update_info_plist(

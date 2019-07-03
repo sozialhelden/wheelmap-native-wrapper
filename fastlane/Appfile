@@ -1,12 +1,18 @@
+
 for_platform :ios do
-  itc_team_id("422407") # iTunes Connect Team ID
-  team_id(ENV["TEAM_ID"]) # Developer Portal Team ID
   apple_id(ENV["FASTLANE_USER"])
-  app_identifier "de.sozialhelden.wheelmap.iphone"
+
+  itc_team_id(ENV["APPLE_APPSTORE_CONNECT_TEAM_ID"]) # AppStore Connect Team ID
+  itc_team_name(ENV["APPLE_APPSTORE_CONNECT_TEAM_NAME"]) # AppStore Connect Team Name
+
+  team_id(ENV["APPLE_DEVELOPER_TEAM_ID"]) # Developer Portal Team ID
+  team_name(ENV["APPLE_DEVELOPER_TEAM_NAME"]) # Developer Portal Team Name
+  
+  app_identifier(ENV['IOS_PROJECT_BUNDLE_ID'])
 end
 
 for_platform :android do
-  app_identifier "org.wheelmap.android.online"
+  app_identifier(ENV['ANDROID_PROJECT_BUNDLE_ID'])
 end
 
 # Check the certificates repo out to ../certificates to use this.
