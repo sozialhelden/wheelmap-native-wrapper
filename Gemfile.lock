@@ -69,6 +69,7 @@ GEM
       mini_magick (~> 4.5.1)
     fastlane-plugin-browserstack (0.3.1)
       rest-client (~> 2.0, >= 2.0.2)
+    fastlane-plugin-increment_version_code (0.4.3)
     fastlane-plugin-xml_editor (0.2.0)
       nokogiri (~> 1.8.0)
       plist (~> 3.3.0)
@@ -172,6 +173,7 @@ DEPENDENCIES
   fastlane (~> 2.122)
   fastlane-plugin-appicon
   fastlane-plugin-browserstack
+  fastlane-plugin-increment_version_code
   fastlane-plugin-xml_editor (~> 0.2.0)
 
 BUNDLED WITH
