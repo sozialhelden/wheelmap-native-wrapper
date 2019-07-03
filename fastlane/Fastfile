@@ -65,6 +65,9 @@ end
 ### ------------ IOS ------------ ###
 platform :ios do
 
+  xcodeprojPath = 'ios/ios-pwa-wrapper.xcodeproj'
+  plistPath = 'ios-pwa-wrapper/Info.plist'
+
   ######################### PRIVATE LANES ##########################
 
   desc "Configure the project from the environent"
@@ -73,18 +76,18 @@ platform :ios do
     # Build the iOS app, with enabling the code signing automatically
     automatic_code_signing(
       use_automatic_signing: true,
-      path: "ios/ios-pwa-wrapper.xcodeproj"
+      path: xcodeprojPath,
     )
     # Set bundle & app name
     update_app_identifier(
-      plist_path: '../ios/ios-pwa-wrapper/Info.plist',
+      plist_path: plistPath,
       app_identifier: ENV["IOS_PROJECT_BUNDLE_ID"],
-      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+      xcodeproj: xcodeprojPath,
     )
     update_info_plist(
-      plist_path: 'ios-pwa-wrapper/Info.plist',
+      plist_path: plistPath,
       display_name: ENV["PROJECT_APP_NAME"],
-      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+      xcodeproj: xcodeprojPath,
     )
     create_icons()
   end
@@ -105,7 +108,7 @@ platform :ios do
   lane :development do
     configure(export_method: 'development')
     # open in xcode, relative to fastlane path
-    sh("open", "../ios/ios-pwa-wrapper.xcodeproj")
+    sh("open", "../#{xcodeprojPath}")
   end
 
   #--------------------- Create the app icons  ---------------------#
@@ -115,7 +118,7 @@ platform :ios do
       export_method: 'app-store',
       # static options
       configuration: "Release",
-      project: "ios/ios-pwa-wrapper.xcodeproj",
+      project: xcodeprojPath,
       scheme: "ios-pwa-wrapper",
       output_directory: "fastlane/ipa",
       xcargs: "-allowProvisioningUpdates",
@@ -130,6 +133,9 @@ platform :ios do
 
   desc "Deploys a release build of the app, configured from the env/project"
   lane :app_store do
+    increment_build_number(
+      xcodeproj: xcodeprojPath,
+    )
     release_build()
     # TODO: Upload to store
   end
@@ -137,7 +143,7 @@ platform :ios do
   desc "Deploys a beta build of the app to testflight, configured from the env/project"
   lane :beta do
     increment_build_number(
-      xcodeproj: "ios/ios-pwa-wrapper.xcodeproj",
+      xcodeproj: xcodeprojPath,
     )
     release_build()
     upload_to_testflight(
