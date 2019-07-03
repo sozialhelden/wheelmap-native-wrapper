@@ -66,7 +66,7 @@ class ViewController: UIViewController {
         
         
         if #available(iOS 11.0, *) {
-            self.additionalSafeAreaInsets = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
+            self.additionalSafeAreaInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
             webView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.contentInsetAdjustmentBehavior = .never
