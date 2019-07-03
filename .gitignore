@@ -1,8 +1,33 @@
+#####
+# OS X temporary files that should never be committed
 .DS_Store
-.envfastlane/report.xml
-/.bundle
-/vendor
-fastlane/ipa/
-fastlane/certificate/
-/ios/ios-pwa-wrapper/Images.xcassets/AppIcon.appiconset/*.png
-/fastlane/report.xml
+*.swp
+*.lock
+profile
+
+#####
+# Bundle cache
+.bundle
+
+#####
+# DotEnv files
+.env
+
+####
+# Fastlane
+# Temporary profiling data
+fastlane/report.xml
+# Deliver temporary error output
+fastlane/Error*.png
+# Deliver temporary preview output
+fastlane/Preview.html
+# Snapshot generated screenshots
+fastlane/screenshots/*/*-portrait.png
+fastlane/screenshots/*/*-landscape.png
+fastlane/screenshots/screenshots.html
+# Frameit generated screenshots
+fastlane/screenshots/*/*-portrait_framed.png
+fastlane/screenshots/*/*-landscape_framed.png
+fastlane/README.md
+fastlane/certificate
+fastlane/ipa
