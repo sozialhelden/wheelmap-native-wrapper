@@ -1,6 +1,6 @@
 
-/* Class = "UILabel"; text = "You are offline."; ObjectID = "2o9-AL-VUQ"; Note = "Offline indicator text"; */
-"2o9-AL-VUQ.text" = "";
+/* Class = "UILabel"; text = "You are offline"; ObjectID = "2o9-AL-VUQ"; Note = "Offline indicator text"; */
+"2o9-AL-VUQ.text" = "You are offline";
 
-/* Class = "UIButton"; normalTitle = "Tap here to retry!"; ObjectID = "M9z-jX-53J"; */
-"M9z-jX-53J.normalTitle" = "";
+/* Class = "UIButton"; normalTitle = "Retry"; ObjectID = "M9z-jX-53J"; */
+"M9z-jX-53J.normalTitle" = "Retry";
