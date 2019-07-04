@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,6 +39,9 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
+                                                <attributedString key="userComments">
+                                                    <fragment content="Offline indicator text"/>
+                                                </attributedString>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="M9z-jX-53J">
                                                 <rect key="frame" x="120.5" y="72" width="173" height="41"/>
@@ -60,7 +64,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" insetsLayoutMarginsFromSafeArea="NO" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Khc-j7-EfD">
-                                        <rect key="frame" x="188" y="430" width="37" height="37"/>
+                                        <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
                                         <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -86,6 +90,7 @@
                             <constraint firstItem="P71-RQ-w3Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wb5-bQ-9sI"/>
                             <constraint firstItem="yda-zQ-zIG" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="zZe-5t-CKa"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="maB-SG-lZ9"/>
                     </view>
                     <navigationItem key="navigationItem" id="COK-wh-4k6"/>
                     <connections>

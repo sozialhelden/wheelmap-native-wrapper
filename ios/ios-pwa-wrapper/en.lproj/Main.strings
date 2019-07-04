@@ -1,9 +1,6 @@
 
-/* Class = "UINavigationItem"; title = "PWA Wrapper"; ObjectID = "COK-wh-4k6"; */
-"COK-wh-4k6.title" = "PWA Wrapper";
+/* Class = "UILabel"; text = "You are offline."; ObjectID = "2o9-AL-VUQ"; Note = "Offline indicator text"; */
+"2o9-AL-VUQ.text" = "";
 
-/* Class = "UIBarButtonItem"; title = "Menu"; ObjectID = "DBy-OS-v6d"; */
-"DBy-OS-v6d.title" = "Menu";
-
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "mlw-cf-kRg"; */
-"mlw-cf-kRg.title" = "Back";
+/* Class = "UIButton"; normalTitle = "Tap here to retry!"; ObjectID = "M9z-jX-53J"; */
+"M9z-jX-53J.normalTitle" = "";

@@ -35,9 +35,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>Wheelmap location, because tracking you is awesome!</string>
+	<string>Location access is used to show where you are on the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Wheelmap location when in use!</string>
+	<string>Location access is used to show where you are on the map</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
