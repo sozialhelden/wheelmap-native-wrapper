@@ -1,6 +1,8 @@
 fastlane_require 'dotenv'
 fastlane_require 'pp'
 
+app_env_fields=['PROJECT_HOST_NAME', 'PROJECT_PRIMARY_COLOR']
+
 before_all do
   Dotenv.require_keys('PROJECT_ENV')
 
@@ -155,32 +157,37 @@ end
 ### ------------ IOS ------------ ###
 platform :ios do
   xcodeprojPath = 'ios/ios-pwa-wrapper.xcodeproj'
-  plistPath = 'ios-pwa-wrapper/Info.plist'
+  infoPlistPath = 'ios-pwa-wrapper/Info.plist'
 
   ######################### PRIVATE LANES ##########################
 
   desc 'Configure the project from the environent'
   private_lane :configure do |options|
-    match(
-      type: options[:export_method]
-    )
-    # Build the iOS app, with enabling the code signing automatically
     automatic_code_signing(
       use_automatic_signing: true,
       path: xcodeprojPath
     )
+
     # Set bundle & app name
     update_app_identifier(
-      plist_path: plistPath,
+      plist_path: infoPlistPath,
       app_identifier: ENV['IOS_PROJECT_BUNDLE_ID'],
       xcodeproj: xcodeprojPath
     )
+
     update_info_plist(
-      plist_path: plistPath,
+      plist_path: infoPlistPath,
       display_name: ENV['PROJECT_APP_NAME'],
       xcodeproj: xcodeprojPath
     )
+
     create_icons()
+
+    configPlistPath = 'ios/ios-pwa-wrapper/Configuration.plist'
+
+    app_env_fields.each do |key|
+      set_info_plist_value(path: configPlistPath, key: key, value: ENV[key])
+    end
   end
 
   desc 'Create the app icons'
@@ -210,7 +217,10 @@ platform :ios do
 
   desc 'Make a release build'
   lane :release_build do
-    configure(export_method: 'appstore')
+    configure()
+    match(
+      type: appstore
+    )
     gym(
       export_method: 'app-store',
       # static options

@@ -212,6 +212,7 @@ extension ViewController: WKNavigationDelegate {
     // didFailProvisionalNavigation
     // == we are offline / page not available
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("didFailProvisionalNavigation: \(error)")
         // abort timeout
         WebViewData.loadTimer?.invalidate()
         WebViewData.loadTimer = nil

@@ -1,7 +1,7 @@
 import UIKit
 
-let filepath = Bundle.main.path(forResource: "Configuration.env", ofType: nil)
-let config : [String:String] = filepath != nil ? ConfigLoader.loadDotEnvFile(filename: filepath!) : [:]
+let filepath = Bundle.main.path(forResource: "Configuration.plist", ofType: nil)
+let config : [String:String] = filepath != nil ? ConfigLoader.load(filename: filepath!) : [:]
 
 // Basic App-/WebView-configuration
 let appTitle = config["PROJECT_APP_NAME", default: "Wheelmap"]

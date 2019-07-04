@@ -12,9 +12,9 @@
 		2D504BF41FA100E20019B279 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BF21FA100E20019B279 /* Main.storyboard */; };
 		2D504BF91FA100E20019B279 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BF81FA100E20019B279 /* Images.xcassets */; };
 		2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */; };
-		2DC96ADE1FA5DD32006B5881 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC96ADD1FA5DD32006B5881 /* Constants.swift */; };
+		2DC96ADE1FA5DD32006B5881 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC96ADD1FA5DD32006B5881 /* Configuration.swift */; };
 		740F1A1722CE008F00FF7AEB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 740F1A1922CE008F00FF7AEB /* InfoPlist.strings */; };
-		740F1A1C22CE43A000FF7AEB /* Configuration.env in Resources */ = {isa = PBXBuildFile; fileRef = 740F1A1B22CE43A000FF7AEB /* Configuration.env */; };
+		740F1A1E22CE496500FF7AEB /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 740F1A1D22CE496500FF7AEB /* Configuration.plist */; };
 		74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */ = {isa = PBXBuildFile; fileRef = 74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */; };
 		74E1C2DA228D8A9C0047EA0B /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */; };
 		74E1C2DE228D94390047EA0B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E1C2DD228D94390047EA0B /* Colors.swift */; };
@@ -30,10 +30,10 @@
 		2D504BFD1FA100E20019B279 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D64358A1FA62B5800ECC5D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		2D9480D21FA8B96000ED0A97 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		2DC96ADD1FA5DD32006B5881 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2DC96ADD1FA5DD32006B5881 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		740F1A1822CE008F00FF7AEB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		740F1A1A22CE009700FF7AEB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		740F1A1B22CE43A000FF7AEB /* Configuration.env */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Configuration.env; sourceTree = "<group>"; };
+		740F1A1D22CE496500FF7AEB /* Configuration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		74DED3F322899FF300D4CBD1 /* ios-pwa-wrapper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ios-pwa-wrapper.entitlements"; sourceTree = "<group>"; };
 		74DED3FB2289C08D00D4CBD1 /* InjectLocation.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = InjectLocation.js; sourceTree = "<group>"; };
 		74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigLoader.swift; sourceTree = "<group>"; };
@@ -79,11 +79,11 @@
 				2D504BF81FA100E20019B279 /* Images.xcassets */,
 				2D504BFA1FA100E20019B279 /* LaunchScreen.storyboard */,
 				2D504BFD1FA100E20019B279 /* Info.plist */,
-				2DC96ADD1FA5DD32006B5881 /* Constants.swift */,
+				2DC96ADD1FA5DD32006B5881 /* Configuration.swift */,
 				74E1C2DD228D94390047EA0B /* Colors.swift */,
 				74E1C2D9228D8A9C0047EA0B /* ConfigLoader.swift */,
 				740F1A1922CE008F00FF7AEB /* InfoPlist.strings */,
-				740F1A1B22CE43A000FF7AEB /* Configuration.env */,
+				740F1A1D22CE496500FF7AEB /* Configuration.plist */,
 			);
 			path = "ios-pwa-wrapper";
 			sourceTree = "<group>";
@@ -169,9 +169,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D504BFC1FA100E20019B279 /* LaunchScreen.storyboard in Resources */,
-				740F1A1C22CE43A000FF7AEB /* Configuration.env in Resources */,
 				740F1A1722CE008F00FF7AEB /* InfoPlist.strings in Resources */,
 				2D504BF91FA100E20019B279 /* Images.xcassets in Resources */,
+				740F1A1E22CE496500FF7AEB /* Configuration.plist in Resources */,
 				74DED3FC2289C08D00D4CBD1 /* InjectLocation.js in Resources */,
 				2D504BF41FA100E20019B279 /* Main.storyboard in Resources */,
 			);
@@ -188,7 +188,7 @@
 				74E1C2DE228D94390047EA0B /* Colors.swift in Sources */,
 				2D504BEF1FA100E20019B279 /* AppDelegate.swift in Sources */,
 				74E1C2DA228D8A9C0047EA0B /* ConfigLoader.swift in Sources */,
-				2DC96ADE1FA5DD32006B5881 /* Constants.swift in Sources */,
+				2DC96ADE1FA5DD32006B5881 /* Configuration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
