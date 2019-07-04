@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
         NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
+    
     // reload page from offline screen
     @IBAction func onOfflineButtonClick(_ sender: Any) {
         offlineView.isHidden = true
@@ -145,8 +146,18 @@ class ViewController: UIViewController {
 
 // WebView Event Listeners
 extension ViewController: WKNavigationDelegate {
+    // custom data for this extension
+    private struct WebViewData {
+        static var loadTimer: Timer?
+        static let timeoutDuration = 5.0
+    }
+    
     // didFinish
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        // abort timeout
+        WebViewData.loadTimer?.invalidate()
+        WebViewData.loadTimer = nil
+        
         // set title
         if (changeAppTitleToPageTitle) {
             navigationItem.title = webView.title
@@ -161,13 +172,48 @@ extension ViewController: WKNavigationDelegate {
     // didFailProvisionalNavigation
     // == we are offline / page not available
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        // abort timeout
+        WebViewData.loadTimer?.invalidate()
+        WebViewData.loadTimer = nil
+        
         // show offline screen
         offlineView.isHidden = false
         webViewContainer.isHidden = true
+        
+        // hide activity indicator
+        activityIndicatorView.isHidden = true
+        activityIndicator.stopAnimating()
+        progressBar.isHidden = true
+    }
+    
+    // timeout
+    // == we are offline / page not available
+    @objc func timeout() {
+        WebViewData.loadTimer = nil
+        
+        // show offline screen
+        offlineView.isHidden = false
+        webViewContainer.isHidden = true
+        
+        // hide activity indicator
+        activityIndicatorView.isHidden = true
+        activityIndicator.stopAnimating()
+        progressBar.isHidden = true
     }
     
     // load startpage
     func loadAppUrl() {
+        progressBar.isHidden = false
+        activityIndicatorView.isHidden = false
+        activityIndicator.startAnimating()
+        
+        WebViewData.loadTimer = Timer.scheduledTimer(
+            timeInterval: WebViewData.timeoutDuration,
+            target: self,
+            selector: #selector(timeout),
+            userInfo: nil,
+            repeats: false)
+        
         let urlRequest = URLRequest(url: webAppUrl!)
         webView.load(urlRequest)
     }
