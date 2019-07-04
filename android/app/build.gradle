@@ -6,7 +6,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "$System.env.ANDROID_PROJECT_APP_ID"
+        applicationId System.env.ANDROID_PROJECT_APP_ID ? "$System.env.ANDROID_PROJECT_APP_ID" : 'org.wheelmap.pwawrapper'
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 6
