@@ -191,6 +191,12 @@ platform :ios do
       appicon_path: 'ios/ios-pwa-wrapper/Images.xcassets',
       appicon_devices: %i[ipad iphone ios_marketing watch watch_marketing]
     )
+
+    # pathes relative to fastfile
+    FileUtils.cp("../env/#{project}/LaunchIcon.png", '../ios/ios-pwa-wrapper/Images.xcassets/LaunchIcon.imageset/')
+    FileUtils.cp("../env/#{project}/LaunchIcon@2x.png", '../ios/ios-pwa-wrapper/Images.xcassets/LaunchIcon.imageset/')
+    FileUtils.cp("../env/#{project}/LaunchIcon@3x.png", '../ios/ios-pwa-wrapper/Images.xcassets/LaunchIcon.imageset/')
+    FileUtils.cp("../env/#{project}/LaunchBackground.png", '../ios/ios-pwa-wrapper/Images.xcassets/LaunchBackground.imageset/')
   end
 
   ######################### PUBLIC LANES ###########################

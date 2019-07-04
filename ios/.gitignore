@@ -9,6 +9,8 @@
 
 ### 
 # XCode generated project files
+ios-pwa-wrapper/Images.xcassets/LaunchBackground.imageset/*.png
+ios-pwa-wrapper/Images.xcassets/LaunchIcon.imageset/*.png
 ios-pwa-wrapper/Images.xcassets/AppIcon.appiconset/*.png
 
 ####
