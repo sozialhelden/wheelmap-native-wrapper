@@ -26,8 +26,10 @@ let navigationBarColor = fromHex(hex: primaryColor)
 
 let offlineIconColor = UIColor.darkGray
 
-let progressBarColor = navigationBarColor
-let navigationTitleColor = navigationBarColor
-let navigationButtonColor = navigationBarColor
-let buttonColor = navigationBarColor
-let activityIndicatorColor = navigationBarColor
+let darkerColor = navigationBarColor.darker()
+
+let progressBarColor = darkerColor
+let navigationTitleColor = darkerColor
+let navigationButtonColor = darkerColor
+let buttonColor = darkerColor
+let activityIndicatorColor = darkerColor
