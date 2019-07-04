@@ -35,3 +35,4 @@ fastlane/ipa
 
 env/**/Secret.env
 
+env/framefield.com
