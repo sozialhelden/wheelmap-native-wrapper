@@ -14,7 +14,8 @@ android {
     }
     signingConfigs {
         playstore {
-            storeFile file(project.findProperty('android.injected.signing.store.file'))
+            storeFile project.hasProperty('android.injected.signing.store.file') ?
+                    file(project.findProperty('android.injected.signing.store.file')) : null
             storePassword project.findProperty('android.injected.signing.store.password')
             keyAlias project.findProperty('android.injected.signing.key.alias')
             keyPassword project.findProperty('android.injected.signing.key.password')
