@@ -11,6 +11,10 @@ android {
         targetSdkVersion 28
         versionCode 6
         versionName "5.0"
+
+        buildConfigField 'String', 'PROJECT_APP_NAME', "\"$System.env.PROJECT_APP_NAME\""
+        buildConfigField 'String', 'PROJECT_HOST_NAME', "\"$System.env.PROJECT_HOST_NAME\""
+        buildConfigField 'String', 'PROJECT_PRIMARY_COLOR', "\"$System.env.PROJECT_PRIMARY_COLOR\""
     }
     signingConfigs {
         playstore {

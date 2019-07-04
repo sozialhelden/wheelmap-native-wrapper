@@ -1,7 +1,7 @@
 fastlane_require 'dotenv'
 fastlane_require 'pp'
 
-app_env_fields=['PROJECT_HOST_NAME', 'PROJECT_PRIMARY_COLOR']
+app_env_fields=['PROJECT_APP_NAME', 'PROJECT_HOST_NAME', 'PROJECT_PRIMARY_COLOR']
 
 before_all do
   Dotenv.require_keys('PROJECT_ENV')
@@ -67,6 +67,10 @@ platform :android do
   private_lane :configure do |_options|
     create_icons()
     update_manifest()
+
+    app_env_fields.each do |key|
+      xml_add(path_to_xml_file: manifestFile, xml_path: '//application', new_value: "<meta-data android:name=\"#{key}\" android:value=\"#{ENV[key]}\"/>")
+    end
   end
 
   desc 'Fill the correct values into the manifest file'

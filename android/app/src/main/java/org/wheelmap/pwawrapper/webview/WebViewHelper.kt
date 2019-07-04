@@ -18,7 +18,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.webkit.*
-import org.wheelmap.pwawrapper.Constants
+import org.wheelmap.pwawrapper.Configuration
 import org.wheelmap.pwawrapper.R
 import org.wheelmap.pwawrapper.ui.UIManager
 
@@ -102,7 +102,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         webSettings.databaseEnabled = true
 
         // enable mixed content mode conditionally
-        if (Constants.ENABLE_MIXED_CONTENT && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Configuration.ENABLE_MIXED_CONTENT && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         }
 
@@ -110,13 +110,13 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         forceCacheIfOffline()
 
         // set User Agent
-        if (Constants.OVERRIDE_USER_AGENT || Constants.POSTFIX_USER_AGENT) {
+        if (Configuration.OVERRIDE_USER_AGENT || Configuration.POSTFIX_USER_AGENT) {
             var userAgent = webSettings.userAgentString
-            if (Constants.OVERRIDE_USER_AGENT) {
-                userAgent = Constants.USER_AGENT
+            if (Configuration.OVERRIDE_USER_AGENT) {
+                userAgent = Configuration.USER_AGENT
             }
-            if (Constants.POSTFIX_USER_AGENT) {
-                userAgent = userAgent + " " + Constants.USER_AGENT_POSTFIX
+            if (Configuration.POSTFIX_USER_AGENT) {
+                userAgent = userAgent + " " + Configuration.USER_AGENT_POSTFIX
             }
             webSettings.userAgentString = userAgent
         }
@@ -225,7 +225,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
     // handle external urls
     private fun handleUrlLoad(view: WebView, url: String): Boolean {
         // prevent loading content that isn't ours
-        if (!url.startsWith(Constants.WEBAPP_URL)) {
+        if (!url.startsWith(Configuration.baseUrl)) {
             // stop loading
             view.stopLoading()
 
@@ -263,12 +263,12 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
     // load app startpage
     fun loadHome() {
-        webView.loadUrl(Constants.WEBAPP_URL)
+        webView.loadUrl(Configuration.baseUrl)
     }
 
     // load URL from intent
     fun loadIntentUrl(url: String) {
-        if (url != "" && url.contains(Constants.WEBAPP_HOST)) {
+        if (url != "" && url.contains(Configuration.baseHost)) {
             webView.loadUrl(url)
         } else {
             // Fallback

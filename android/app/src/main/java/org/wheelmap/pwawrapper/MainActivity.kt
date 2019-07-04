@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Configuration.init(applicationContext)
+
         // Setup Helpers
         uiManager = UIManager(this)
         webViewHelper = WebViewHelper(this, uiManager!!)

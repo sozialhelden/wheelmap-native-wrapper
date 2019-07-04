@@ -11,7 +11,7 @@ import android.view.animation.DecelerateInterpolator
 import android.webkit.WebView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import org.wheelmap.pwawrapper.Constants
+import org.wheelmap.pwawrapper.Configuration
 import org.wheelmap.pwawrapper.R
 
 class UIManager(private val activity: Activity) {
@@ -25,7 +25,7 @@ class UIManager(private val activity: Activity) {
     init {
         // set click listener for offline-screen
         offlineContainer.setOnClickListener {
-            webView.loadUrl(Constants.WEBAPP_URL)
+            webView.loadUrl(Configuration.baseUrl)
             setOffline(false)
         }
     }
@@ -47,7 +47,7 @@ class UIManager(private val activity: Activity) {
         }
 
         // get app screen back if loading is almost complete
-        if (progress >= Constants.PROGRESS_THRESHOLD && !pageLoaded) {
+        if (progress >= Configuration.PROGRESS_THRESHOLD && !pageLoaded) {
             setLoading(false)
         }
     }
@@ -56,9 +56,9 @@ class UIManager(private val activity: Activity) {
     fun setLoading(isLoading: Boolean) {
         if (isLoading) {
             progressSpinner.visibility = View.VISIBLE
-            webView.animate().translationX(Constants.REVEAL_TRANSITION_DURATION.toFloat()).alpha(0.5f).setInterpolator(AccelerateInterpolator()).start()
+            webView.animate().translationX(Configuration.REVEAL_TRANSITION_DURATION.toFloat()).alpha(0.5f).setInterpolator(AccelerateInterpolator()).start()
         } else {
-            webView.translationX = (Constants.REVEAL_TRANSITION_DURATION * -1).toFloat()
+            webView.translationX = (Configuration.REVEAL_TRANSITION_DURATION * -1).toFloat()
             webView.animate().translationX(0f).alpha(1f).setInterpolator(DecelerateInterpolator()).start()
             progressSpinner.visibility = View.INVISIBLE
         }
