@@ -1,6 +1,6 @@
 import UIKit
 
-let filepath = Bundle.main.path(forResource: "Config.env", ofType: nil)
+let filepath = Bundle.main.path(forResource: "Configuration.env", ofType: nil)
 let config : [String:String] = filepath != nil ? ConfigLoader.loadDotEnvFile(filename: filepath!) : [:]
 
 // Basic App-/WebView-configuration
