@@ -45,11 +45,6 @@ Creates a local build of the app, configured from the env/project
 fastlane ios release_build
 ```
 Make a release build
-### ios app_store
-```
-fastlane ios app_store
-```
-Deploys a release build of the app, configured from the env/project
 ### ios beta
 ```
 fastlane ios beta

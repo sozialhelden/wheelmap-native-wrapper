@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     
     // Initialize App and start loading
     func setupApp() {
+        initAppFocus()
         setupWebView()
         locationInit()
         setupUI()
@@ -144,6 +145,45 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController {
+    // custom data for this extension
+    private struct FocusData {
+        static var lastFocusLost: Date = Date.init()
+        static let reloadDuration = 60.0
+    }
+    
+    func initAppFocus() {
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(appMovedToForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil)
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(appMovedToBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+    }
+    
+    @objc func appMovedToBackground() {
+        print("App moved to Background!")
+        FocusData.lastFocusLost = Date.init()
+    }
+    
+    @objc func appMovedToForeground() {
+        let timePassed = abs(FocusData.lastFocusLost.timeIntervalSinceNow)
+        
+        print("App moved to Foreground! \(timePassed)")
+        
+        if (timePassed > FocusData.reloadDuration) {
+            reloadCurrentUrl()
+        }
+    }
+}
+
+
 // WebView Event Listeners
 extension ViewController: WKNavigationDelegate {
     // custom data for this extension
@@ -201,8 +241,12 @@ extension ViewController: WKNavigationDelegate {
         progressBar.isHidden = true
     }
     
+    func reloadCurrentUrl() {
+        loadAppUrl(url: (webView.url != nil ? webView.url : webAppUrl))
+    }
+    
     // load startpage
-    func loadAppUrl() {
+    func loadAppUrl(url: URL? = webAppUrl) {
         progressBar.isHidden = false
         activityIndicatorView.isHidden = false
         activityIndicator.startAnimating()
@@ -214,7 +258,7 @@ extension ViewController: WKNavigationDelegate {
             userInfo: nil,
             repeats: false)
         
-        let urlRequest = URLRequest(url: webAppUrl!)
+        let urlRequest = URLRequest(url: url!)
         webView.load(urlRequest)
     }
 }
