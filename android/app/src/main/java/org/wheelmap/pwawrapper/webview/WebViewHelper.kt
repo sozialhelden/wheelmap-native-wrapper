@@ -30,6 +30,8 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
     private var geolocationOrigin: String? = null
     private var geolocationCallback: GeolocationPermissions.Callback? = null
 
+    private var lastFocusLost: Long = System.currentTimeMillis()
+
     /**
      * Simple helper method checking if connected to Network.
      * Doesn't check for actual Internet connection!
@@ -212,10 +214,16 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
     fun onPause() {
         webView.onPause()
+
+        lastFocusLost = System.currentTimeMillis()
     }
 
     fun onResume() {
         webView.onResume()
+        val timePassed = System.currentTimeMillis() - lastFocusLost
+        if (timePassed > Configuration.RELOAD_AFTER_FOCUS_LOST_DURATION) {
+            webView.reload()
+        }
     }
 
     // show "no app found" dialog

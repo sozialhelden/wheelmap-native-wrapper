@@ -22,7 +22,11 @@ class Configuration {
         // bump it up to ~98 if you don't have SSR or a loading screen in your web app
         const val PROGRESS_THRESHOLD = 80
 
+        // waiting time before showing the offline screen in milliseconds
         const val TIMEOUT_DURATION = 5000L
+
+        // will reload the page when app was paused for at least the given amount of time
+        const val RELOAD_AFTER_FOCUS_LOST_DURATION = 60000L
 
         // turn on/off mixed content (both https+http within one page) for API >= 21
         const val ENABLE_MIXED_CONTENT = true
