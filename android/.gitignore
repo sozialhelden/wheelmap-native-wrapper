@@ -21,6 +21,8 @@ local.properties
 # Generated app icons
 ic_appbar.png
 ic_launcher.png
+ic_launcher_foreground.xml
+ic_launcher_background.xml
 
 im_loader_background.png
 
