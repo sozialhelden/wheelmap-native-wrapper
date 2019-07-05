@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        webViewHelper!!.onDestroy()
+        super.onDestroy()
+    }
+
     override fun onPause() {
         webViewHelper!!.onPause()
         super.onPause()
@@ -63,8 +68,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         webViewHelper!!.onResume()
-        // retrieve content from cache primarily if not connected
-        webViewHelper!!.forceCacheIfOffline()
         super.onResume()
     }
 

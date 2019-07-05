@@ -4,11 +4,13 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.webkit.WebView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import org.wheelmap.pwawrapper.Configuration
@@ -17,10 +19,13 @@ import org.wheelmap.pwawrapper.R
 class UIManager(private val activity: Activity) {
 
     private val webView: WebView = activity.findViewById<View>(R.id.webView) as WebView
-    private val progressSpinner: ProgressBar = activity.findViewById<View>(R.id.progressSpinner) as ProgressBar
+    private val loadingContainer: FrameLayout = activity.findViewById<View>(R.id.loadingContainer) as FrameLayout
     private val progressBar: ProgressBar = activity.findViewById<View>(R.id.progressBarBottom) as ProgressBar
     private val offlineContainer: LinearLayout = activity.findViewById<View>(R.id.offlineContainer) as LinearLayout
     private var pageLoaded = false
+
+    val isLoaded: Boolean
+            get() { return pageLoaded }
 
     init {
         // set click listener for offline-screen
@@ -28,6 +33,9 @@ class UIManager(private val activity: Activity) {
             webView.loadUrl(Configuration.baseUrl)
             setOffline(false)
         }
+
+        webView.alpha = 0.0f
+        webView.translationX = -400.0f
     }
 
     // Set Loading Progress for ProgressBar
@@ -55,12 +63,13 @@ class UIManager(private val activity: Activity) {
     // Show loading animation screen while app is loading/caching the first time
     fun setLoading(isLoading: Boolean) {
         if (isLoading) {
-            progressSpinner.visibility = View.VISIBLE
-            webView.animate().translationX(Configuration.REVEAL_TRANSITION_DURATION.toFloat()).alpha(0.5f).setInterpolator(AccelerateInterpolator()).start()
+            loadingContainer.visibility = View.VISIBLE
+            webView.animate().translationX(-400.0f).alpha(0.0f).setInterpolator(AccelerateInterpolator()).setDuration(500).start()
         } else {
-            webView.translationX = (Configuration.REVEAL_TRANSITION_DURATION * -1).toFloat()
-            webView.animate().translationX(0f).alpha(1f).setInterpolator(DecelerateInterpolator()).start()
-            progressSpinner.visibility = View.INVISIBLE
+            webView.visibility = View.VISIBLE
+            offlineContainer.visibility = View.INVISIBLE
+            webView.animate().translationX(0.0f).alpha(1f).setInterpolator(DecelerateInterpolator()).setDuration(500).start()
+            loadingContainer.visibility = View.INVISIBLE
         }
         pageLoaded = !isLoading
     }
@@ -68,8 +77,8 @@ class UIManager(private val activity: Activity) {
     // handle visibility of offline screen
     fun setOffline(offline: Boolean) {
         if (offline) {
-            setLoadingProgress(100)
             webView.visibility = View.INVISIBLE
+            loadingContainer.visibility = View.INVISIBLE
             offlineContainer.visibility = View.VISIBLE
         } else {
             webView.visibility = View.VISIBLE

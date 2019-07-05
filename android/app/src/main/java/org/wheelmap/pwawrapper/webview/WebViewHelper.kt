@@ -77,6 +77,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
     // handles initial setup of webview
     fun setupWebView() {
+
         // accept cookies
         CookieManager.getInstance().setAcceptCookie(true)
         // enable JS
@@ -170,7 +171,15 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+                Handler().postDelayed({ checkTimeout() }, Configuration.TIMEOUT_DURATION)
+
                 handleUrlLoad(view, url)
+            }
+
+            private fun checkTimeout() {
+                if (!uiManager.isLoaded) {
+                    handleLoadError(408)
+                }
             }
 
             // handle loading error by showing the offline screen
@@ -195,7 +204,12 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         }
     }
 
+
     // Lifecycle callbacks
+    fun onDestroy() {
+        webView.loadUrl(null)
+    }
+
     fun onPause() {
         webView.onPause()
     }

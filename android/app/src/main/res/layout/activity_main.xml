@@ -43,29 +43,46 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressSpinner"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary" />
+    <FrameLayout
+        android:id="@+id/loadingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/backgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/loading_image_background"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <ProgressBar
+            android:id="@+id/progressSpinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary" />
+    </FrameLayout>
 
     <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/webView"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:translationX="200dp">
+
+    </WebView>
 
     <ProgressBar
         android:id="@+id/progressBarBottom"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:max="100"
         android:progress="0"
         android:progressTint="@color/green" />
