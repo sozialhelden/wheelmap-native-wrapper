@@ -59,6 +59,7 @@ end
 platform :android do
   manifestFile = './android/app/src/main/AndroidManifest.xml'
   appNameStringsFile = './android/app/src/main/res/values/strings.xml'
+  colorsFile = './android/app/src/main/res/values/colors.xml'
   apkPath = 'android/app/build/outputs/apk/release/app-release-unsigned.apk'
 
   ######################### PRIVATE LANES ##########################
@@ -67,6 +68,9 @@ platform :android do
   private_lane :configure do |_options|
     create_icons()
     update_manifest()
+
+    # primary color
+    xml_editor(path_to_xml_file: colorsFile, xml_path: '//resources//color[@name=\'primary\']', new_value: "##{ENV['PROJECT_PRIMARY_COLOR']}")
 
     app_env_fields.each do |key|
       xml_add(path_to_xml_file: manifestFile, xml_path: '//application', new_value: "<meta-data android:name=\"#{key}\" android:value=\"#{ENV[key]}\"/>")
@@ -91,12 +95,15 @@ platform :android do
       appicon_icon_types: [:launcher],
       appicon_path: 'android/app/src/main/res/mipmap'
     )
+
     android_appicon(
       appicon_image_file: "./env/#{project}/NotificationIcon.png",
       appicon_icon_types: [:notification],
       appicon_path: 'android/app/src/main/res/drawable',
       appicon_filename: 'ic_appbar'
     )
+
+    FileUtils.cp("../env/#{project}/LaunchBackground.png", '../android/app/src/main/res/drawable-xxhdpi/im_loader_background.png')
   end
 
   ######################### PUBLIC LANES ###########################
