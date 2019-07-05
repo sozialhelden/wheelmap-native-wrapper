@@ -16,6 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
+### android create_icons
+```
+fastlane android create_icons
+```
+Create the app icons
 ### android development
 ```
 fastlane android development

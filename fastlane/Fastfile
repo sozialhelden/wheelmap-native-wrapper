@@ -87,7 +87,7 @@ platform :android do
   end
 
   desc 'Create the app icons'
-  private_lane :create_icons do
+  lane :create_icons do
     project = ENV['PROJECT_ENV']
 
     android_appicon(
@@ -102,6 +102,9 @@ platform :android do
       appicon_path: 'android/app/src/main/res/drawable',
       appicon_filename: 'ic_appbar'
     )
+
+    # convert svg to vector, relative to fastlane path
+    sh('../tools/vd-tool/bin/vd-tool', "-c", "-in", "../env/#{project}/", "-out", "../android/app/src/main/res/drawable/")
 
     FileUtils.cp("../env/#{project}/LaunchBackground.png", '../android/app/src/main/res/drawable-xxhdpi/im_loader_background.png')
   end
