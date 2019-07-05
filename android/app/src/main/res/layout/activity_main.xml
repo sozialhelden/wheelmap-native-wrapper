@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:tint="@color/colorPrimary"
+            android:contentDescription="@string/cloud_icon"
+            android:tint="@color/darkGray"
             app:srcCompat="@drawable/ic_cloud_off_black_48dp" />
 
         <TextView
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/offline_heading"
+            android:textAlignment="center"
             android:textSize="18sp" />
 
         <TextView
@@ -54,7 +56,19 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/loading_image_background"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/im_loader_background" />
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/application_logo"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
+            android:minWidth="200dp"
+            android:minHeight="200dp"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <ProgressBar
             android:id="@+id/progressSpinner"
@@ -62,8 +76,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="125dp"
             android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary" />
+            android:indeterminateTint="@color/primary" />
     </FrameLayout>
 
     <WebView
@@ -72,7 +87,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:translationX="200dp">
+        android:alpha="0"
+        android:translationX="-250dp">
 
     </WebView>
 
@@ -85,6 +101,6 @@
         android:layout_alignParentBottom="true"
         android:max="100"
         android:progress="0"
-        android:progressTint="@color/green" />
+        android:progressTint="@color/primary" />
 
 </RelativeLayout>

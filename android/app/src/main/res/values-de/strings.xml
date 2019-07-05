@@ -4,4 +4,6 @@
     <string name="noapp_heading">Keine App gefunden.</string>
     <string name="noapp_description">Keine App auf diesem Gerät kann die gewählte Aktion ausführen.</string>
     <string name="loading_image_background">Loading image background</string>
+    <string name="cloud_icon">cloud icon</string>
+    <string name="application_logo">application logo</string>
 </resources>
