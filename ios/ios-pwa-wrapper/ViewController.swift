@@ -278,13 +278,19 @@ extension ViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         print("decidePolicyFor: \(navigationAction)")
         
-        if let requestUrl = navigationAction.request.url {
+        if var requestUrl = navigationAction.request.url {
             if let requestHost = requestUrl.host {
                 // requestHost.range(of: webAppHost) != nil would allow links like news.wheelmap.org for wheelmap.org
                 if (requestHost == webAppHost) {
                     decisionHandler(.allow)
                 } else {
                     decisionHandler(.cancel)
+                    
+                    // redirect to settings on mobile app
+                    if (requestUrl.absoluteString == "https://support.apple.com/en-us/ht203033") {
+                        requestUrl = URL(string: UIApplication.openSettingsURLString)!
+                    }
+                    
                     if (UIApplication.shared.canOpenURL(requestUrl)) {
                         if #available(iOS 10.0, *) {
                             UIApplication.shared.open(requestUrl)
