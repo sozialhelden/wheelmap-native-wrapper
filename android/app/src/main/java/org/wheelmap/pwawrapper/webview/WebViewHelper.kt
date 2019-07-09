@@ -14,7 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Message
-import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -75,7 +75,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
     }
 
     fun locationAccessGranted(allow: Boolean) {
-        geolocationCallback?.invoke(geolocationOrigin, allow, allow)
+        geolocationCallback?.invoke(geolocationOrigin, allow, false)
     }
 
     // handles initial setup of webview
@@ -156,7 +156,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                 val perm = Manifest.permission.ACCESS_FINE_LOCATION
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(activity, perm) == PackageManager.PERMISSION_GRANTED) {
                     // we're on SDK < 23 OR user has already granted permission
-                    callback.invoke(origin, true, true)
+                    callback.invoke(origin, true, false)
                 } else {
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, perm)) {
                         // ask the user for permission
@@ -164,12 +164,15 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                         ActivityCompat.requestPermissions(activity, arrayOf(perm), requestFineLocationCode)
 
                         // we will use these when user responds
-                        geolocationOrigin = origin
-                        geolocationCallback = callback
+
                     } else {
-                        val isPermitted = ActivityCompat.checkSelfPermission(activity, perm) == PackageManager.PERMISSION_GRANTED
+                        val isPermitted = ActivityCompat.checkSelfPermission(activity, perm) == PackageManager.PERMISSION_GRANTED ||
+                                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                         callback(origin, isPermitted, false)
                     }
+
+                    geolocationOrigin = origin
+                    geolocationCallback = callback
                 }
             }
 
@@ -282,7 +285,14 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
             // handle location settings
             if (url == "https://support.google.com/android/answer/6179507") {
-               intent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
+                // remove cached geo location settings
+                webView.clearCache(true)
+                webView.clearHistory()
+
+                intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+
+                val uri = Uri.fromParts("package", activity.packageName, null)
+                intent.data = uri
             }
 
             if (intent.resolveActivity(activity.packageManager) != null) {
