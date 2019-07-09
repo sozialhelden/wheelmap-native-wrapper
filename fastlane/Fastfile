@@ -233,7 +233,7 @@ platform :ios do
   lane :release_build do
     configure()
     match(
-      type: appstore
+      type: 'appstore'
     )
     gym(
       export_method: 'app-store',
@@ -259,7 +259,7 @@ platform :ios do
     )
     release_build()
     upload_to_testflight(
-      ipa: "fastlane/ipa/#{ENV['PROJECT_APP_NAME']}.ipa"
+      ipa: "fastlane/ipa/#{ENV['PROJECT_APP_NAME']}.ipa",
     )
     notify_deployment(
       message: 'iOS beta successfully released to the AppStore! You can be a beta tester by opening the beta link on your iPhone (Note that the build can appear with a delay).',
