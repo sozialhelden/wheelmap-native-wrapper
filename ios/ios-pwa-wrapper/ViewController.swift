@@ -279,29 +279,39 @@ extension ViewController: WKUIDelegate {
         print("decidePolicyFor: \(navigationAction)")
         
         if var requestUrl = navigationAction.request.url {
+            var openInExternalApp = false
+            if ["mailto", "twitter", "fb"].contains(requestUrl.scheme) {
+                openInExternalApp = true
+            }
+            
             if let requestHost = requestUrl.host {
                 // requestHost.range(of: webAppHost) != nil would allow links like news.wheelmap.org for wheelmap.org
                 if (requestHost == webAppHost) {
                     decisionHandler(.allow)
                 } else {
+                    openInExternalApp = true;
                     decisionHandler(.cancel)
-                    
-                    // redirect to settings on mobile app
-                    if (requestUrl.absoluteString == "https://support.apple.com/en-us/ht203033") {
-                        requestUrl = URL(string: UIApplication.openSettingsURLString)!
-                    }
-                    
-                    if (UIApplication.shared.canOpenURL(requestUrl)) {
-                        if #available(iOS 10.0, *) {
-                            UIApplication.shared.open(requestUrl)
-                        } else {
-                            // Fallback on earlier versions
-                            UIApplication.shared.openURL(requestUrl)
-                        }
-                    }
                 }
             } else {
                 decisionHandler(.cancel)
+            }
+            
+            if openInExternalApp {
+                // redirect to settings on mobile app
+                if (requestUrl.absoluteString == "https://support.apple.com/en-us/ht203033") {
+                    requestUrl = URL(string: UIApplication.openSettingsURLString)!
+                }
+                
+                if (UIApplication.shared.canOpenURL(requestUrl)) {
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(requestUrl)
+                    } else {
+                        // Fallback on earlier versions
+                        UIApplication.shared.openURL(requestUrl)
+                    }
+                } else {
+                    print("Error: Failed opening in external app!: \(requestUrl)")
+                }
             }
         }
     }
