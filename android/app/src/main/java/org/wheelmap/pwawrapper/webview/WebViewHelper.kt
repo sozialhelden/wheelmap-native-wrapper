@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Message
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -127,18 +128,25 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         // enable HTML5-support
         webView.webChromeClient = object : WebChromeClient() {
 
-
-            //simple yet effective redirect/popup blocker
             override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message): Boolean {
-                val href = view.handler.obtainMessage()
-                view.requestFocusNodeHref(href)
-                val popupUrl = href.data.getString("url")
-                if (popupUrl != null) {
-                    //it's null for most rogue browser hijack ads
-                    webView.loadUrl(popupUrl)
-                    return true
+                // create a temporary webview to evaluate the url from window.open()
+                val newWebView = WebView(activity)
+                newWebView.webViewClient = object: WebViewClient() {
+                    override fun onPageStarted(tempView: WebView, url: String, favicon: Bitmap?) {
+                        // treat as an external url
+                        handleExternalLinks(url)
+                        // remove temp view
+                        newWebView.webViewClient = null
+                        newWebView.stopLoading()
+                        newWebView.destroy()
+                    }
                 }
-                return false
+
+                val transport = resultMsg.obj as WebView.WebViewTransport
+                transport.webView = newWebView
+                resultMsg.sendToTarget()
+
+                return true
             }
 
             override fun onGeolocationPermissionsShowPrompt(origin: String, callback: GeolocationPermissions.Callback) {
@@ -158,6 +166,9 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                         // we will use these when user responds
                         geolocationOrigin = origin
                         geolocationCallback = callback
+                    } else {
+                        val isPermitted = ActivityCompat.checkSelfPermission(activity, perm) == PackageManager.PERMISSION_GRANTED
+                        callback(origin, isPermitted, false)
                     }
                 }
             }
@@ -252,16 +263,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
             view.stopLoading()
 
             // open external URL in Browser/3rd party apps instead
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                if (intent.resolveActivity(activity.packageManager) != null) {
-                    activity.startActivity(intent)
-                } else {
-                    showNoAppDialog(activity)
-                }
-            } catch (e: Exception) {
-                showNoAppDialog(activity)
-            }
+            handleExternalLinks(url)
 
             // return value for shouldOverrideUrlLoading
             return true
@@ -271,6 +273,25 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
             uiManager.setLoading(true)
             // return value for shouldOverrideUrlLoading
             return false
+        }
+    }
+
+    private fun handleExternalLinks(url: String) {
+        try {
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+            // handle location settings
+            if (url == "https://support.google.com/android/answer/6179507") {
+               intent = Intent(ACTION_LOCATION_SOURCE_SETTINGS)
+            }
+
+            if (intent.resolveActivity(activity.packageManager) != null) {
+                activity.startActivity(intent)
+            } else {
+                showNoAppDialog(activity)
+            }
+        } catch (e: Exception) {
+            showNoAppDialog(activity)
         }
     }
 
