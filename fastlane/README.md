@@ -31,6 +31,11 @@ Build the app package locally
 fastlane android release_build
 ```
 Make a release build
+### android screenshots
+```
+fastlane android screenshots
+```
+Make screenshots for PlayStore
 ### android beta
 ```
 fastlane android beta
@@ -50,6 +55,11 @@ Creates a local build of the app, configured from the env/project
 fastlane ios release_build
 ```
 Make a release build
+### ios screenshots
+```
+fastlane ios screenshots
+```
+Make screenshots for App Store
 ### ios beta
 ```
 fastlane ios beta

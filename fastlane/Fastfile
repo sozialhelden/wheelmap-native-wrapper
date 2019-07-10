@@ -9,18 +9,18 @@ before_all do
   project = ENV['PROJECT_ENV']
   UI.message("Building for project environment #{project}")
   # path relative to Fastfile
-  configurationPath = "../env/#{project}/Configuration.env"
-  secretPath = "../env/#{project}/Secret.env"
+  configuration_path = "../env/#{project}/Configuration.env"
+  secret_path = "../env/#{project}/Secret.env"
 
-  confLoaded = Dotenv.load(configurationPath)
-  secretLoaded = Dotenv.overload(secretPath)
+  conf_loaded = Dotenv.load(configuration_path)
+  secret_loaded = Dotenv.overload(secret_path)
 
-  if confLoaded.empty?
-    UI.crash!("🐞 Environment in #{configurationPath} was not found or is empty.")
+  if conf_loaded.empty?
+    UI.crash!("🐞 Environment in #{configuration_path} was not found or is empty.")
   end
 
-  if secretLoaded.empty?
-    UI.error("⚠️ Environment in #{secretPath} was not found or is empty. Not all integrations will work.")
+  if secret_loaded.empty?
+    UI.error("⚠️ Environment in #{secret_path} was not found or is empty. Not all integrations will work.")
   end
 
   Dotenv.require_keys('PROJECT_ID')
@@ -57,10 +57,9 @@ end
 
 ### ------------ ANDROID ------------ ###
 platform :android do
-  manifestFile = './android/app/src/main/AndroidManifest.xml'
-  appNameStringsFile = './android/app/src/main/res/values/strings.xml'
-  colorsFile = './android/app/src/main/res/values/colors.xml'
-  apkPath = 'android/app/build/outputs/apk/release/app-release-unsigned.apk'
+  manifest_file = './android/app/src/main/AndroidManifest.xml'
+  app_name_strings_file = './android/app/src/main/res/values/strings.xml'
+  colors_file = './android/app/src/main/res/values/colors.xml'
 
   ######################### PRIVATE LANES ##########################
 
@@ -70,20 +69,20 @@ platform :android do
     update_manifest()
 
     # primary color
-    xml_editor(path_to_xml_file: colorsFile, xml_path: '//resources//color[@name=\'primary\']', new_value: "##{ENV['PROJECT_PRIMARY_COLOR']}")
+    xml_editor(path_to_xml_file: colors_file, xml_path: '//resources//color[@name=\'primary\']', new_value: "##{ENV['PROJECT_PRIMARY_COLOR']}")
 
     app_env_fields.each do |key|
-      xml_add(path_to_xml_file: manifestFile, xml_path: '//application', new_value: "<meta-data android:name=\"#{key}\" android:value=\"#{ENV[key]}\"/>")
+      xml_add(path_to_xml_file: manifest_file, xml_path: '//application', new_value: "<meta-data android:name=\"#{key}\" android:value=\"#{ENV[key]}\"/>")
     end
   end
 
   desc 'Fill the correct values into the manifest file'
   private_lane :update_manifest do
     # change both host entries
-    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
-    xml_set_attribute(path_to_xml_file: manifestFile, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
+    xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
+    xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
 
-    xml_editor(path_to_xml_file: appNameStringsFile, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV['PROJECT_APP_NAME'])
+    xml_editor(path_to_xml_file: app_name_strings_file, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV['PROJECT_APP_NAME'])
   end
 
   desc 'Create the app icons'
@@ -127,10 +126,10 @@ platform :android do
 
     # strip out invalid fields
     sign_options = {
-      "android.injected.signing.store.file" => File.expand_path(ENV["ANDROID_KEYSTORE_PATH"]),
-      "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
-      "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"] || '',
-      "android.injected.signing.key.password" => ENV["ANDROID_KEYSTORE_PASSWORD"] || '',
+      "android.injected.signing.store.file" => File.expand_path(ENV['ANDROID_KEYSTORE_PATH']),
+      "android.injected.signing.key.alias" => ENV['ANDROID_KEY_ALIAS'],
+      "android.injected.signing.store.password" => ENV['ANDROID_KEYSTORE_PASSWORD'] || '',
+      "android.injected.signing.key.password" => ENV['ANDROID_KEYSTORE_PASSWORD'] || '',
     }
 
     gradle(
@@ -142,11 +141,24 @@ platform :android do
     )
   end
 
+  desc "Make screenshots for PlayStore"
+  lane :screenshots do
+    release_build()
+    upload_to_browserstack_app_automate(
+      browserstack_username: ENV['BROWSERSTACK_USERNAME'],
+      browserstack_access_key: ENV['BROWSERSTACK_ACCESS_KEY'],
+      file_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+    )
+    Dir.chdir("../tools/generate-screenshots") do
+      sh(['npx', 'wdio', '-l', 'warn', 'parallel.conf.js'])
+    end
+  end
+
   desc 'Build the app package and deploy to hockey app and play store beta'
   lane :beta do
     increment_version_code()
     release_build(build_type: 'playstore')
-    apk_file_name = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH];
+    apk_file_name = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
     hockey(
       api_token: ENV['HOCKEY_API_TOKEN_ANDROID'],
       apk: apk_file_name
@@ -170,8 +182,8 @@ end
 
 ### ------------ IOS ------------ ###
 platform :ios do
-  xcodeprojPath = 'ios/ios-pwa-wrapper.xcodeproj'
-  infoPlistPath = 'ios-pwa-wrapper/Info.plist'
+  xcodeproj_path = 'ios/ios-pwa-wrapper.xcodeproj'
+  info_plist_path = 'ios-pwa-wrapper/Info.plist'
 
   ######################### PRIVATE LANES ##########################
 
@@ -179,20 +191,20 @@ platform :ios do
   private_lane :configure do |options|
     automatic_code_signing(
       use_automatic_signing: true,
-      path: xcodeprojPath
+      path: xcodeproj_path
     )
 
     # Set bundle & app name
     update_app_identifier(
-      plist_path: infoPlistPath,
+      plist_path: info_plist_path,
       app_identifier: ENV['IOS_PROJECT_BUNDLE_ID'],
-      xcodeproj: xcodeprojPath
+      xcodeproj: xcodeproj_path
     )
 
     update_info_plist(
-      plist_path: infoPlistPath,
+      plist_path: info_plist_path,
       display_name: ENV['PROJECT_APP_NAME'],
-      xcodeproj: xcodeprojPath
+      xcodeproj: xcodeproj_path
     )
 
     create_icons()
@@ -226,7 +238,7 @@ platform :ios do
   lane :development do
     configure(export_method: 'development')
     # open in xcode, relative to fastlane path
-    sh('open', "../#{xcodeprojPath}")
+    sh('open', "../#{xcodeproj_path}")
   end
 
   desc 'Make a release build'
@@ -239,7 +251,7 @@ platform :ios do
       export_method: 'app-store',
       # static options
       configuration: 'Release',
-      project: xcodeprojPath,
+      project: xcodeproj_path,
       scheme: 'ios-pwa-wrapper',
       output_directory: 'fastlane/ipa',
       xcargs: '-allowProvisioningUpdates',
@@ -252,10 +264,23 @@ platform :ios do
     )
   end
 
+  desc "Make screenshots for App Store"
+  lane :screenshots do
+    # sets BROWSERSTACK_APP_ID automatically
+    upload_to_browserstack_app_automate(
+      browserstack_username: ENV['BROWSERSTACK_USERNAME'],
+      browserstack_access_key: ENV['BROWSERSTACK_ACCESS_KEY'],
+      file_path: "fastlane/ipa/#{ENV['PROJECT_APP_NAME']}.ipa"
+    )
+    Dir.chdir('../tools/generate-screenshots') do
+      sh(['npx', 'wdio', '-l', 'warn', 'parallel.conf.js'])
+    end
+  end
+
   desc 'Deploys a beta build of the app to testflight, configured from the env/project'
   lane :beta do
     increment_build_number(
-      xcodeproj: xcodeprojPath
+      xcodeproj: xcodeproj_path
     )
     release_build()
     upload_to_testflight(

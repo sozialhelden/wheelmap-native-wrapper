@@ -37,3 +37,4 @@ env/**/Secret.env
 
 env/framefield.com
 node_modules
+env/**/screenshots

@@ -10,7 +10,6 @@ Install the latest Xcode command line tools:
 
     xcode-select --install
 
-
 Install bundle using
 
     sudo gem install bundler -NV
@@ -22,6 +21,11 @@ Install the bundles
 Install graphicsmagick for icon generation
 
     brew install graphicsmagick
+
+Install webdriver.io for the automatic generation of screenshots
+
+    cd tools/generate-screenshots
+    npm install
 
 ## Building
 
