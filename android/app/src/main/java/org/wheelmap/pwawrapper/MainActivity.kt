@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.webkit.WebView
 import org.wheelmap.pwawrapper.ui.UIManager
 import org.wheelmap.pwawrapper.webview.WebViewHelper
 
@@ -20,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Configuration.init(applicationContext)
+
+        // allow app automation in browserstack
+        WebView.setWebContentsDebuggingEnabled(true)
 
         // Setup Helpers
         uiManager = UIManager(this)
