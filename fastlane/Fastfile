@@ -29,7 +29,7 @@ end
 desc 'Configure the project from the environent'
 private_lane :notify_deployment do |options|
   message = options[:message]
-  payload = options[:payload].compact
+  payload = options[:payload]
 
   should_post_on_slack = ENV['SLACK_URL'] && ENV['SLACK_USERNAME']
 
