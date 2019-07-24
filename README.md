@@ -29,6 +29,11 @@ Install webdriver.io for the automatic generation of screenshots
 
 ## Building
 
+Prepare environment variables:
+
+- `cp env/wheelmap.org/Secret.example.env env/wheelmap.org/Secret.env`
+- Adapt the values in `env/wheelmap.org/Secret.env`
+
 Run these commands for building development/beta/app store builds on iOS:
 
 - `PROJECT_ENV=wheelmap.org FASTLANE_USER=[APPLE_ID] bundle exec fastlane ios development`
