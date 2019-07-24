@@ -189,7 +189,7 @@ extension ViewController: WKNavigationDelegate {
     // custom data for this extension
     private struct WebViewData {
         static var loadTimer: Timer?
-        static let timeoutDuration = 5.0
+        static let timeoutDuration = 15.0
     }
     
     // didFinish
@@ -235,7 +235,7 @@ extension ViewController: WKNavigationDelegate {
         // show offline screen
         offlineView.isHidden = false
         webViewContainer.isHidden = true
-        
+
         // hide activity indicator
         activityIndicatorView.isHidden = true
         activityIndicator.stopAnimating()
@@ -258,7 +258,7 @@ extension ViewController: WKNavigationDelegate {
             selector: #selector(timeout),
             userInfo: nil,
             repeats: false)
-        
+
         let urlRequest = URLRequest(url: url!)
         webView.load(urlRequest)
     }

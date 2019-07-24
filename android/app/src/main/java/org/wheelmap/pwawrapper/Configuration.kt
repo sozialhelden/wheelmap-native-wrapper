@@ -23,7 +23,7 @@ class Configuration {
         const val PROGRESS_THRESHOLD = 80
 
         // waiting time before showing the offline screen in milliseconds
-        const val TIMEOUT_DURATION = 5000L
+        const val TIMEOUT_DURATION = 15000L
 
         // will reload the page when app was paused for at least the given amount of time
         const val RELOAD_AFTER_FOCUS_LOST_DURATION = 60000L
