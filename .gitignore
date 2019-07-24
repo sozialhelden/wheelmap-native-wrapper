@@ -5,6 +5,7 @@
 *.lock
 profile
 Thumbs.db
+vendor/
 
 #####
 # Bundle cache
