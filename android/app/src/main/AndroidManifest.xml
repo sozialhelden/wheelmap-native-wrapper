@@ -1,61 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.wheelmap.pwawrapper">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="org.wheelmap.pwawrapper">
 
     <!-- Necessary permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <uses-feature
-        android:name="android.hardware.wifi"
-        android:required="false" />
+    <uses-feature android:name="android.hardware.wifi" android:required="false"/>
 
     <!-- Add support for Chromebooks -->
-    <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
-    <application
-        android:allowBackup="true"
-        android:fullBackupOnly="true"
-        android:icon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
-        android:resizeableActivity="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        tools:targetApi="n">
-        <activity
-            android:name="org.wheelmap.pwawrapper.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Launch">
+    <application android:allowBackup="true" android:fullBackupOnly="true" android:icon="@mipmap/ic_launcher_round" android:label="@string/app_name" android:resizeableActivity="true" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" tools:targetApi="n">
+        <activity android:name="org.wheelmap.pwawrapper.MainActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@style/AppTheme.Launch">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data
-                    android:host="wheelmap.org"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="wheelmap.org"
-                    android:pathPrefix="/"
-                    android:scheme="https" />
+                <data android:host="wheelmap.org" android:pathPrefix="/" android:scheme="http"/>
+                <data android:host="wheelmap.org" android:pathPrefix="/" android:scheme="https"/>
             </intent-filter>
         </activity>
 
         <!--Support super wide screens-->
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1" />
-    </application>
+        <meta-data android:name="android.max_aspect" android:value="2.1"/>
+    <meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/></application>
 </manifest>

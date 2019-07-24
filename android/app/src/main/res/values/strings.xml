@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">PWA Wrapper</string>
+    <string name="app_name" translatable="false">Wheelmap</string>
     <string name="offline_heading">You are offline.</string>
     <string name="offline_description">Tap here to retry!</string>
     <string name="noapp_heading">App not found.</string>
