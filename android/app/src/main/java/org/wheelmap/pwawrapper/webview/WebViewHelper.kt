@@ -120,7 +120,9 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                 userAgent = Configuration.USER_AGENT
             }
             if (Configuration.POSTFIX_USER_AGENT) {
-                userAgent = userAgent + " " + Configuration.USER_AGENT_POSTFIX
+                val pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
+                val version = pInfo.versionName;
+                userAgent = userAgent + " " + Configuration.USER_AGENT_POSTFIX_PREFIX + "/" + version + " (Android)"
             }
             webSettings.userAgentString = userAgent
         }

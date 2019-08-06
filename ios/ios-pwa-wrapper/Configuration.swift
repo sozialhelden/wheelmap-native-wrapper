@@ -11,7 +11,8 @@ let primaryColor = config["PROJECT_PRIMARY_COLOR", default: "9DF359"]
 let webAppUrl = URL(string: "https://\(webAppHost)")
 
 let useUserAgentPostfix = true
-let userAgentPostfix = "iOSApp"
+let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+let userAgentPostfix = "AllyApp/\(version ?? "Unknown") (iOS)"
 let useCustomUserAgent = false
 let customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A356 Safari/604.1"
 
