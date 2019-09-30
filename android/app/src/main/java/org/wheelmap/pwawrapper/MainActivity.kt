@@ -2,9 +2,12 @@ package org.wheelmap.pwawrapper
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.Toast
 import org.wheelmap.pwawrapper.ui.UIManager
 import org.wheelmap.pwawrapper.webview.WebViewHelper
 
@@ -84,17 +87,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val requestFineLocationCode = 1
-        when (requestCode) {
-            requestFineLocationCode -> {
-                var allow = false
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // user has allowed this permission
-                    allow = true
-                }
+        webViewHelper!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
-                webViewHelper!!.locationAccessGranted(allow)
-            }
-        }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        webViewHelper!!.onActivityResult(requestCode, resultCode, intent);
     }
 }

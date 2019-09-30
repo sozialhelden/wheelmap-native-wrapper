@@ -237,6 +237,21 @@ platform :ios do
   desc 'Creates a local build of the app, configured from the env/project'
   lane :development do
     configure(export_method: 'development')
+    gym(
+      export_method: 'development',
+      # static options
+      configuration: 'Debug',
+      project: xcodeproj_path,
+      scheme: 'ios-pwa-wrapper',
+      output_directory: 'fastlane/debug-ipa',
+      # xcargs: '-allowProvisioningUpdates',
+      # export_xcargs: '-allowProvisioningUpdates',
+      silent: false,
+      clean: true,
+      suppress_xcode_output: false,
+      # env options
+      output_name: ENV['PROJECT_APP_NAME']
+    )
     # open in xcode, relative to fastlane path
     sh('open', "../#{xcodeproj_path}")
   end

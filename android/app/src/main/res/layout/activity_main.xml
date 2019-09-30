@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/cloud_icon"
+            android:contentDescription=""
             android:tint="@color/darkGray"
             app:srcCompat="@drawable/ic_cloud_off_black_48dp" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/backgroundImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/loading_image_background"
+            android:contentDescription=""
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/im_loader_background" />
 
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="@string/application_logo"
+            android:contentDescription=""
             android:maxWidth="200dp"
             android:maxHeight="200dp"
             android:minWidth="200dp"

@@ -22,11 +22,28 @@ import android.webkit.*
 import org.wheelmap.pwawrapper.Configuration
 import org.wheelmap.pwawrapper.R
 import org.wheelmap.pwawrapper.ui.UIManager
+import android.webkit.ValueCallback
+import android.widget.Toast
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.provider.MediaStore
+import android.support.design.widget.Snackbar
+import android.support.v4.content.FileProvider
+import kotlinx.android.synthetic.main.activity_main.*
+import org.wheelmap.pwawrapper.BuildConfig
+import java.io.File
+import java.io.IOException
 
+const val REQUEST_TAKE_PHOTO = 1
+const val PERMISSION_REQUEST_FINE_LOCATION = 1
+const val PERMISSION_REQUEST_CAMERA = 2
 
 class WebViewHelper(private val activity: Activity, private val uiManager: UIManager) {
     private val webView: WebView
     private val webSettings: WebSettings
+
+    private var lastPhotoFileProviderContentSchemeUri: Uri? = null
+    private var lastFilePathCallback : ValueCallback<Array<Uri>>? = null
 
     private var geolocationOrigin: String? = null
     private var geolocationCallback: GeolocationPermissions.Callback? = null
@@ -66,7 +83,6 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         }
     }
 
-
     // public method changing cache settings according to network availability.
     // retrieve content from cache primarily if not connected,
     // allow fetching from web too otherwise to get updates.
@@ -78,9 +94,118 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         geolocationCallback?.invoke(geolocationOrigin, allow, false)
     }
 
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            PERMISSION_REQUEST_FINE_LOCATION -> {
+                var allow = false
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // user has allowed this permission
+                    allow = true
+                }
+
+                locationAccessGranted(allow)
+                return
+            }
+            PERMISSION_REQUEST_CAMERA -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay!
+                    dispatchTakePictureIntent()
+                } else {
+                    // permission denied, boo!
+                    Toast.makeText(activity.applicationContext, R.string.camera_access_required, Toast.LENGTH_LONG).show()
+                    lastFilePathCallback!!.onReceiveValue(null)
+                }
+                return
+            }
+
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private fun requestCameraPermissionWithExplanationIfNecessary() {
+        val doRequest = { ->
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA);
+        }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // Display a SnackBar with a button to request the missing permission.
+            val snackbar = Snackbar.make(activity.webView, R.string.camera_access_required, Snackbar.LENGTH_INDEFINITE)
+            snackbar.setAction(R.string.ok) {
+                doRequest()
+            }
+            snackbar.show()
+        } else {
+            doRequest()
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val storageDir: File = activity.applicationContext.cacheDir.resolve("images")
+        storageDir.mkdir()
+        return File.createTempFile("photo", ".jpg", storageDir)
+    }
+
+    private fun dispatchTakePictureIntent() {
+        if (!activity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            Toast.makeText(activity.applicationContext, R.string.device_has_no_camera, Toast.LENGTH_LONG).show()
+            return
+        }
+
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(activity.packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    Toast.makeText(activity.applicationContext, R.string.cannot_generate_image_tempfile, Toast.LENGTH_LONG).show()
+                    lastFilePathCallback!!.onReceiveValue(null)
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    lastPhotoFileProviderContentSchemeUri = FileProvider.getUriForFile(
+                            activity,
+                            BuildConfig.APPLICATION_ID + ".fileprovider",
+                            it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, lastPhotoFileProviderContentSchemeUri)
+                    activity.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+                }
+            }
+        }
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+        when (requestCode) {
+            REQUEST_TAKE_PHOTO -> {
+                if (resultCode != Activity.RESULT_OK) {
+                    Toast.makeText(activity.applicationContext, R.string.no_image_uploaded, Toast.LENGTH_SHORT).show()
+                    lastFilePathCallback!!.onReceiveValue(arrayOf())
+                    return;
+                }
+                lastFilePathCallback!!.onReceiveValue(arrayOf(lastPhotoFileProviderContentSchemeUri!!))
+                return;
+            }
+        }
+    }
+
     // handles initial setup of webview
     fun setupWebView() {
-
         // accept cookies
         CookieManager.getInstance().setAcceptCookie(true)
         // enable JS
@@ -103,6 +228,8 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         webSettings.domStorageEnabled = true
         webSettings.setAppCachePath(activity.applicationContext.cacheDir.absolutePath)
         webSettings.setAppCacheEnabled(true)
+        webSettings.setAllowFileAccess(true)
+        webSettings.setAllowContentAccess(true)
         webSettings.databaseEnabled = true
 
         // enable mixed content mode conditionally
@@ -162,8 +289,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                 } else {
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, perm)) {
                         // ask the user for permission
-                        val requestFineLocationCode = 1
-                        ActivityCompat.requestPermissions(activity, arrayOf(perm), requestFineLocationCode)
+                        ActivityCompat.requestPermissions(activity, arrayOf(perm), PERMISSION_REQUEST_FINE_LOCATION)
 
                         // we will use these when user responds
 
@@ -182,6 +308,21 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 uiManager.setLoadingProgress(newProgress)
                 super.onProgressChanged(view, newProgress)
+            }
+
+            // For Lollipop 5.0+ Devices
+            override fun onShowFileChooser(
+                    mWebView: WebView,
+                    filePathCallback: ValueCallback<Array<Uri>>,
+                    fileChooserParams: WebChromeClient.FileChooserParams
+            ): Boolean {
+                lastFilePathCallback = filePathCallback
+                if (!hasCameraPermission()) {
+                    requestCameraPermissionWithExplanationIfNecessary()
+                } else {
+                    dispatchTakePictureIntent()
+                }
+                return true
             }
         }
 
@@ -330,4 +471,5 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
             loadHome()
         }
     }
+
 }

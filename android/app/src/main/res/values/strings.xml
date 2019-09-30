@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Wheelmap</string>
+
+    <!-- Shown when an error occurs while loading the app -->
     <string name="offline_heading">You are offline.</string>
+
+    <!-- Button to retry loading the app after an error -->
     <string name="offline_description">Tap here to retry!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
     <string name="noapp_heading">App not found.</string>
-    <string name="noapp_description">No App on this device can carry out this action.</string>
-    <string name="loading_image_background">Loading image background</string>
-    <string name="cloud_icon">cloud icon</string>
-    <string name="application_logo">application logo</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">No app on this device can carry out this action.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">To add a photo, please allow camera access.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Okay</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Sorry, adding photos only works on devices with a camera.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Sorry, could not save the image. Do you have enough storage?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">No image was uploaded.</string>
 </resources>

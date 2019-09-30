@@ -13,6 +13,10 @@
     <!-- Add support for Chromebooks -->
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
+    <!-- For uploading photos -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+
     <application android:allowBackup="true" android:fullBackupOnly="true" android:icon="@mipmap/ic_launcher_round" android:label="@string/app_name" android:resizeableActivity="true" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" tools:targetApi="n">
         <activity android:name="org.wheelmap.pwawrapper.MainActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@style/AppTheme.Launch">
             <intent-filter>
@@ -30,7 +34,11 @@
             </intent-filter>
         </activity>
 
+        <provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"/>
+        </provider>
+
         <!--Support super wide screens-->
         <meta-data android:name="android.max_aspect" android:value="2.1"/>
-    <meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/></application>
+    <meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/><meta-data android:name="PROJECT_APP_NAME" android:value="Wheelmap"/><meta-data android:name="PROJECT_HOST_NAME" android:value="wheelmap.org"/><meta-data android:name="PROJECT_PRIMARY_COLOR" android:value="7cc500"/></application>
 </manifest>
