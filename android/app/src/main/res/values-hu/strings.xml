@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Offline vagy.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Koppints ide, hogy újrapróbáld!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">Alkalmazás nem található.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">A készüléken egyetlen alkalmazás sem tudja végrehajtani ezt a műveletet.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">Fénykép feltöltéséhez engedélyezd a hozzáférést a kamerához.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Rendben</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Sajnáljuk, képek hozzáadása csak kamerával rendelkező készülékekről lehetséges.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Sajnáljuk, nem tudtuk menteni a képet. Van elég tárhelyed?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Nem lett kép feltöltve.</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">オフラインです。</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">ここをタップしてもう一度試しましょう！</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">アプリが見つかりません。</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">このデバイスのアプリはこのアクションを実行できません。</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">写真を追加するには、カメラへのアクセスを許可してください。</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">了解です</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">申し訳ありませんが、写真を追加できるのはカメラ付きのデバイスのみです。</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">申し訳ありません、画像を保存できませんでした。 十分なストレージ容量がありますか？</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">画像がアップロードされていません。</string>
+</resources>

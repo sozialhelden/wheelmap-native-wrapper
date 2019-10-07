@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Jesteś offline.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Dotknij tutaj, aby spróbować ponownie!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">Nie znaleziono aplikacji.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">Żadna aplikacja zainstalowana na tym urządzeniu nie może wykonać tej czynności.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">Aby dodać zdjęcie, zezwól na dostęp do aparatu.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Ok</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Przepraszamy, dodawanie zdjęć jest możliwe tylko na urządzeniach wyposażonych w kamerę.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Przepraszamy, zapisanie zdjęcia nie powiodło się. Czy masz wystarczająco dużo wolnego miejsca?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Nie przesłano żadnego zdjęcia.</string>
+</resources>

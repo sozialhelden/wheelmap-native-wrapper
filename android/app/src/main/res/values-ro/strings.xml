@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Ești offline.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Atinge aici pentru a reîncerca!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">Aplicația nu a fost găsită.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">Nicio aplicație de pe acest dispozitiv nu poate efectua această acțiune. </string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">Pentru a adăuga o fotografie, te rugăm să permiți accesul la camera foto.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">OK</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Ne pare rău, adăugarea de fotografii funcționează doar pe dispozitivele cu cameră foto.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Ne pare rău, imaginea nu a putut fi salvată. Ai suficient spațiu de stocare?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Nu a fost încărcată nicio imagine.</string>
+</resources>

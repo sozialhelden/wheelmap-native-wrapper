@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Du er offline. </string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Tryk her for at prøve igen! </string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">App ikke fundet. </string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">Ingen app på denne enhed kan foretage denne handling. </string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">For at tilføje et billede skal du venligst tillade adgang til kameraet. </string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Okay </string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Beklager, det er kun muligt at tilføje billeder på enheder med kamera. </string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Beklager, billedet kunne ikke gemmes. Har du nok fri lagerplads? </string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Intet billede blev uploadet. </string>
+</resources>

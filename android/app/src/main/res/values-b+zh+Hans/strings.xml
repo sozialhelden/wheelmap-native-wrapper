@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Shown when an error occurs while loading the app -->
-    <string name="offline_heading">Du bist offline.</string>
+    <string name="offline_heading">您处于离线状态。</string>
 
     <!-- Button to retry loading the app after an error -->
-    <string name="offline_description">Tippe hier, um es nochmal zu probieren!</string>
+    <string name="offline_description">点击此处重试！</string>
 
     <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
-    <string name="noapp_heading">App nicht gefunden.</string>
+    <string name="noapp_heading">找不到应用程序。</string>
 
     <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
-    <string name="noapp_description">Sorry, du hast keine App, die diese Aktion durchführen kann.</string>
+    <string name="noapp_description">此设备上没有可执行此操作的应用程序。</string>
 
     <!-- Shown when the user tries to upload a photo for a place -->
-    <string name="camera_access_required">Bitte erlaube Kamera-Zugriff, um ein Foto hinzuzufügen.</string>
+    <string name="camera_access_required">要添加照片，请允许使用相机。</string>
 
     <!-- Button caption used in multiple places -->
-    <string name="ok">Okay</string>
+    <string name="ok">好的</string>
 
     <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
-    <string name="device_has_no_camera">Sorry, Fotos hinzufügen funktioniert nur auf Geräten mit einer Kamera.</string>
+    <string name="device_has_no_camera">抱歉，只有带相机的设备方可添加照片。</string>
 
     <!-- Shown when a storage problem occurs while taking a place photo -->
-    <string name="cannot_generate_image_tempfile">Sorry, konnte das Bild nicht speichern. Hast Du genug Speicher?</string>
+    <string name="cannot_generate_image_tempfile">抱歉，无法保存图片。您有足够的存储空间吗？</string>
 
     <!-- Shown when the user cancels the camera while adding a place photo -->
-    <string name="no_image_uploaded">Kein Bild hochgeladen.</string>
+    <string name="no_image_uploaded">没有上传图片。</string>
 </resources>

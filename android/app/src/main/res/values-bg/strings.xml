@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Не сте на линия.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Докоснете тук, за да опитате отново!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">Приложението не е намерено.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">Никое приложение на това устройство не може да извърши това действие.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">За да добавите снимка, моля разрешете достъп до камерата.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Добре</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">За съжаление добавянето на снимки работи само на устройства с камера.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">За съжаление не можа да се запази изображението.  Имате ли достатъчно място за съхранение?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Не е качено изображение.</string>
+</resources>

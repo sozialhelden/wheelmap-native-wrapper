@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Shown when an error occurs while loading the app -->
-    <string name="offline_heading">Du bist offline.</string>
+    <string name="offline_heading">Du er offline.</string>
 
     <!-- Button to retry loading the app after an error -->
-    <string name="offline_description">Tippe hier, um es nochmal zu probieren!</string>
+    <string name="offline_description">Trykk her for å prøve igjen!</string>
 
     <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
-    <string name="noapp_heading">App nicht gefunden.</string>
+    <string name="noapp_heading">App ikke funnet.</string>
 
     <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
-    <string name="noapp_description">Sorry, du hast keine App, die diese Aktion durchführen kann.</string>
+    <string name="noapp_description">Ingen apper på denne enheten kan utføre denne handlingen.</string>
 
     <!-- Shown when the user tries to upload a photo for a place -->
-    <string name="camera_access_required">Bitte erlaube Kamera-Zugriff, um ein Foto hinzuzufügen.</string>
+    <string name="camera_access_required">For å legge til et bilde, tillat kameratilgang.</string>
 
     <!-- Button caption used in multiple places -->
-    <string name="ok">Okay</string>
+    <string name="ok">Ok</string>
 
     <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
-    <string name="device_has_no_camera">Sorry, Fotos hinzufügen funktioniert nur auf Geräten mit einer Kamera.</string>
+    <string name="device_has_no_camera">Beklager, å legge til bilder fungerer kun på enheter med et kamera.</string>
 
     <!-- Shown when a storage problem occurs while taking a place photo -->
-    <string name="cannot_generate_image_tempfile">Sorry, konnte das Bild nicht speichern. Hast Du genug Speicher?</string>
+    <string name="cannot_generate_image_tempfile">Beklager, kunne ikke lagre bildet. Har du nok lagringsplass?</string>
 
     <!-- Shown when the user cancels the camera while adding a place photo -->
-    <string name="no_image_uploaded">Kein Bild hochgeladen.</string>
+    <string name="no_image_uploaded">Intet bilde ble lastet opp.</string>
 </resources>

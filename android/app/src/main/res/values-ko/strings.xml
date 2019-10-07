@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">오프라인 상태입니다.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">재시도하려면 여기를 탭하세요!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">앱을 찾지 못했습니다.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">이 기기에는 이 동작을 수행할 수 있는 앱이 없습니다.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">사진을 추가하려면 카메라 접근 권한을 허용해 주세요.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">알겠습니다</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">사진 추가는 카메라가 있는 기기에서만 할 수 있습니다.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">이미지를 저장하지 못했습니다. 저장 공간이 충분합니까?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">업로드된 이미지가 없습니다.</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown when an error occurs while loading the app -->
+    <string name="offline_heading">Je bent offline.</string>
+
+    <!-- Button to retry loading the app after an error -->
+    <string name="offline_description">Tik hier om het opnieuw te proberen!</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_heading">App niet gevonden.</string>
+
+    <!-- Shown when the app tries to use a feature that needs an external app, but the app is not found -->
+    <string name="noapp_description">Geen app op dit apparaat kan deze actie uitvoeren.</string>
+
+    <!-- Shown when the user tries to upload a photo for a place -->
+    <string name="camera_access_required">Sta alsjeblieft toegang tot de camera toe om foto\'s toe te kunnen voegen.</string>
+
+    <!-- Button caption used in multiple places -->
+    <string name="ok">Oké</string>
+
+    <!-- Shown when the device has no built-in camera, but the user tries to add a place photo -->
+    <string name="device_has_no_camera">Sorry, het toevoegen van foto\'s werkt alleen op apparaten met een camera.</string>
+
+    <!-- Shown when a storage problem occurs while taking a place photo -->
+    <string name="cannot_generate_image_tempfile">Sorry, kon de afbeelding niet opslaan. Heb je genoeg opslagruimte?</string>
+
+    <!-- Shown when the user cancels the camera while adding a place photo -->
+    <string name="no_image_uploaded">Er is geen afbeelding geüpload.</string>
+</resources>
