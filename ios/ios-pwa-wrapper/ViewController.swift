@@ -286,7 +286,7 @@ extension ViewController: WKUIDelegate {
             
             if let requestHost = requestUrl.host {
                 // requestHost.range(of: webAppHost) != nil would allow links like news.wheelmap.org for wheelmap.org
-                if (requestHost == webAppHost) {
+                if (requestHost == webAppHost || requestHost == "localhost") {
                     decisionHandler(.allow)
                 } else {
                     openInExternalApp = true;
