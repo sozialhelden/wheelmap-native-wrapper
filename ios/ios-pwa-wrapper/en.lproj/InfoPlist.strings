@@ -1,4 +1,6 @@
 
-"NSLocationUsageDescription" = "Location access is used to show where you are on the map";
+"NSLocationUsageDescription" = "To show where you are on the map, the app needs camera access.";
 
-"NSLocationWhenInUseUsageDescription" = "Location access is used to show where you are on the map";
+"NSLocationWhenInUseUsageDescription" = "To show where you are on the map, the app needs camera access.";
+
+"NSCameraUsageDescription" = "To add photos to places, camera access is needed.";

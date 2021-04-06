@@ -1,0 +1,5 @@
+"NSLocationUsageDescription" = "要顯示您在地圖上的位置，該應用需要訪問攝像頭。";
+
+"NSLocationWhenInUseUsageDescription" = "要顯示您在地圖上的位置，該應用需要訪問攝像頭。";
+
+"NSCameraUsageDescription" = "要將照片添加到地方，需要訪問照相機。";

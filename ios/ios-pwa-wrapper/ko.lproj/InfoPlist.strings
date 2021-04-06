@@ -1,0 +1,5 @@
+"NSLocationUsageDescription"= "지도에서 현재 위치를 표시하려면 앱에 카메라 액세스가 필요합니다.";
+
+"NSLocationWhenInUseUsageDescription"= "지도에서 현재 위치를 표시하려면 앱에 카메라 액세스가 필요합니다.";
+
+"NSCameraUsageDescription"= "장소에 사진을 추가하려면 카메라 접근이 필요합니다.";

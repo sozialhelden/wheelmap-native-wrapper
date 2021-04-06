@@ -1,0 +1,5 @@
+"NSLocationUsageDescription" = "Para mostrar onde você está no mapa, o aplicativo precisa de acesso à câmera.";
+
+"NSLocationWhenInUseUsageDescription" = "Para mostrar onde você está no mapa, o aplicativo precisa de acesso à câmera.";
+
+"NSCameraUsageDescription" = "Para adicionar fotos a lugares, é necessário ter acesso à câmera.";

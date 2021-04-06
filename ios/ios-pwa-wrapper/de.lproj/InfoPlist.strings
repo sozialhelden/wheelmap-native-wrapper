@@ -1,4 +1,6 @@
 
-"NSLocationUsageDescription" = "Wir benötigen Zugriff auf deinen Standort um dich auf der Karte anzuzeigen";
+"NSLocationUsageDescription" = "Um dich auf der Karte anzuzeigen, benötigt die App Zugriff auf deinen Standort.";
 
-"NSLocationWhenInUseUsageDescription" = "Wir benötigen Zugriff auf deinen Standort um dich auf der Karte anzuzeigen";
+"NSLocationWhenInUseUsageDescription" = "Um dich auf der Karte anzuzeigen, benötigt die App Zugriff auf deinen Standort.";
+
+"NSCameraUsageDescription" = "Um Fotos machen zu können, wird Kamerazugriff benötigt.";
