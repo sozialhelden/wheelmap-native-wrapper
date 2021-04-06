@@ -1,3 +1,5 @@
 git_url(ENV['CERTIFICATES_REPOSITORY'])
+app_identifier(ENV['IOS_PROJECT_BUNDLE_ID'])
+team_id(ENV['APPLE_DEVELOPER_TEAM_ID'])
 
 storage_mode('git')
