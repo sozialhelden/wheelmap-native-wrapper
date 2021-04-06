@@ -29,10 +29,24 @@ Install webdriver.io for the automatic generation of screenshots
 
 ## Building
 
-Prepare environment variables:
+### Prepare environment variables
 
 - `cp env/wheelmap.org/Secret.example.env env/wheelmap.org/Secret.env`
 - Adapt the values in `env/wheelmap.org/Secret.env`
+
+### Getting certificates for signing the app
+
+Sync your local iOS signing certificates from the GitHub store:
+
+- `CERTIFICATES_REPOSITORY="git@github.com:sozialhelden/certificates.git" FASTLANE_USER=[APPLE_ID] bundle exec fastlane match`
+
+This might fail after a while because the certificates expire. In this case, you can 'nuke' them with:
+
+- `CERTIFICATES_REPOSITORY="git@github.com:sozialhelden/certificates.git" FASTLANE_USER=[APPLE_ID] bundle exec fastlane match nuke development`
+
+(Replace `development` with the certificate that you want to nuke).
+
+### Creating builds with fastlane
 
 Run these commands for building development/beta/app store builds on iOS:
 
