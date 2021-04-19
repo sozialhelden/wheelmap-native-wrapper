@@ -1,5 +1,5 @@
-"NSLocationUsageDescription" = "要显示您在地图上的位置，该应用需要访问摄像头。";
+"NSLocationUsageDescription" = "为了显示你在地图上的位置，应用程序需要定位访问。";
 
-"NSLocationWhenInUseUsageDescription" = "要显示您在地图上的位置，该应用需要访问摄像头。";
+"NSLocationWhenInUseUsageDescription" = "为了显示你在地图上的位置，应用程序需要定位访问。";
 
 "NSCameraUsageDescription" = "要将照片添加到地方，需要访问照相机。";
