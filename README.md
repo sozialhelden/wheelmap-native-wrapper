@@ -43,8 +43,7 @@ Sync your local iOS signing certificates from the GitHub store:
 This might fail after a while because the certificates expire. In this case, you can 'nuke' them with:
 
 - `CERTIFICATES_REPOSITORY="git@github.com:sozialhelden/certificates.git" FASTLANE_USER=[APPLE_ID] bundle exec fastlane match nuke development`
-
-(Replace `development` with the certificate that you want to nuke).
+- `CERTIFICATES_REPOSITORY="git@github.com:sozialhelden/certificates.git" FASTLANE_USER=[APPLE_ID] bundle exec fastlane match nuke distribution`
 
 ### Creating builds with fastlane
 
