@@ -16,12 +16,12 @@ public struct ConfigLoader {
     }
     
     /// Load plist configuration file and put all the variables into the dictionary
-    public static func load(filename: String) -> [String: String] {
-        let plistPath = getAbsolutePath(relativePath: "/\(filename)")
+    public static func load(plistPath: String) -> [String: String] {
+//        let plistPath = getAbsolutePath(relativePath: "/\(filename)")
         var result: [String: String] = [:]
         
         var propertyListFormat =  PropertyListSerialization.PropertyListFormat.xml //Format of the Property List.
-        let plistXML = FileManager.default.contents(atPath: plistPath!)!
+        let plistXML = FileManager.default.contents(atPath: plistPath)!
         
         do {
             //convert the data to a dictionary and handle errors.

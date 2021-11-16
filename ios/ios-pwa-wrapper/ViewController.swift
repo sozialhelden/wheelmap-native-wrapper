@@ -60,15 +60,22 @@ class ViewController: UIViewController {
         contentController = WKUserContentController()
         config.userContentController = contentController
         config.preferences.javaScriptEnabled = true
-        
-        webView = WKWebView(frame: webViewContainer.frame, configuration: config)
+        if #available(iOS 14.0, *) {
+            config.limitsNavigationsToAppBoundDomains = true
+        }
+
+        webView = FullscreenWebKitView(frame: webViewContainer.frame, configuration: config)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         
         if #available(iOS 11.0, *) {
+            #if targetEnvironment(macCatalyst)
+            self.additionalSafeAreaInsets = UIEdgeInsets.init(top: 32 * 4, left: 0, bottom: 0, right: 0)
+            #else
             self.additionalSafeAreaInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+            #endif
             webView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.insetsLayoutMarginsFromSafeArea = true
             webView.scrollView.contentInsetAdjustmentBehavior = .never

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 11.0, *) {
             UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: navigationTitleColor]
         }
-
+        
         return true
     }
 

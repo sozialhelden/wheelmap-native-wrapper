@@ -250,7 +250,8 @@ platform :ios do
       clean: true,
       suppress_xcode_output: false,
       # env options
-      output_name: ENV['PROJECT_APP_NAME']
+      output_name: ENV['PROJECT_APP_NAME'],
+      catalyst_platform: ENV['CATALYST_PLATFORM']
     )
     # open in xcode, relative to fastlane path
     sh('open', "../#{xcodeproj_path}")
@@ -275,7 +276,8 @@ platform :ios do
       clean: true,
       suppress_xcode_output: false,
       # env options
-      output_name: ENV['PROJECT_APP_NAME']
+      output_name: ENV['PROJECT_APP_NAME'],
+      catalyst_platform: ENV['CATALYST_PLATFORM']
     )
   end
 
@@ -308,6 +310,94 @@ platform :ios do
         'Site' => "https://#{ENV['PROJECT_HOST_NAME']}",
         'Beta Test Url' => ENV['IOS_BETA_TEST_URL']
       }
+    )
+  end
+end
+
+
+
+### ------------ IOS ------------ ###
+platform :mac do
+  xcodeproj_path = 'ios/ios-pwa-wrapper.xcodeproj'
+  info_plist_path = 'ios-pwa-wrapper/Info.plist'
+
+  desc 'Configure the project from the environent'
+  private_lane :configure do |options|
+    automatic_code_signing(
+      use_automatic_signing: true,
+      path: xcodeproj_path
+    )
+
+    # Set bundle & app name
+    update_app_identifier(
+      plist_path: info_plist_path,
+      app_identifier: ENV['IOS_PROJECT_BUNDLE_ID'],
+      xcodeproj: xcodeproj_path
+    )
+
+    update_info_plist(
+      plist_path: info_plist_path,
+      display_name: ENV['PROJECT_APP_NAME'],
+      xcodeproj: xcodeproj_path
+    )
+
+    configPlistPath = 'ios/ios-pwa-wrapper/Configuration.plist'
+
+    app_env_fields.each do |key|
+      set_info_plist_value(path: configPlistPath, key: key, value: ENV[key])
+    end
+  end
+
+  ######################### PUBLIC LANES ###########################
+
+  desc 'Creates a local build of the app, configured from the env/project'
+  lane :development do
+    configure(export_method: 'development')
+    match(
+      type: 'development',
+      platform: "macos"
+    )
+    gym(
+      export_method: 'development',
+      # static options
+      configuration: 'Debug',
+      project: xcodeproj_path,
+      scheme: 'ios-pwa-wrapper',
+      output_directory: 'fastlane/debug-ipa',
+      # xcargs: '-allowProvisioningUpdates',
+      # export_xcargs: '-allowProvisioningUpdates',
+      silent: false,
+      clean: true,
+      suppress_xcode_output: false,
+      # env options
+      output_name: ENV['PROJECT_APP_NAME'],
+      catalyst_platform: ENV['CATALYST_PLATFORM']
+    )
+    # open in xcode, relative to fastlane path
+    sh('open', "../#{xcodeproj_path}")
+  end
+
+  desc 'Make a release build'
+  lane :release_build do
+    match(
+      type: 'appstore',
+      platform: "macos"
+    )
+    gym(
+      export_method: 'app-store',
+      # static options
+      configuration: 'Release',
+      project: xcodeproj_path,
+      scheme: 'ios-pwa-wrapper',
+      output_directory: 'fastlane/ipa',
+      xcargs: '-allowProvisioningUpdates',
+      export_xcargs: '-allowProvisioningUpdates',
+      silent: false,
+      clean: true,
+      suppress_xcode_output: false,
+      # env options
+      output_name: ENV['PROJECT_APP_NAME'],
+      catalyst_platform: ENV['CATALYST_PLATFORM']
     )
   end
 end

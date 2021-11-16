@@ -68,6 +68,20 @@ Deploys a beta build of the app to testflight, configured from the env/project
 
 ----
 
+## Mac
+### mac development
+```
+fastlane mac development
+```
+Creates a local build of the app, configured from the env/project
+### mac release_build
+```
+fastlane mac release_build
+```
+Make a release build
+
+----
+
 This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
 More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
 The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
