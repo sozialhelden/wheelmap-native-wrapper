@@ -5,10 +5,10 @@ let config : [String:String] = filepath != nil ? ConfigLoader.load(plistPath: fi
 
 // Basic App-/WebView-configuration
 let appTitle = config["PROJECT_APP_NAME", default: "Wheelmap"]
-let webAppHost = config["PROJECT_HOST_NAME", default: "wheelmap.org"]
+let webAppHost = config["PROJECT_HOST_NAME", default: "localhost:3000"]
 let primaryColor = config["PROJECT_PRIMARY_COLOR", default: "9DF359"]
 
-let webAppUrl = URL(string: "https://\(webAppHost)")
+let webAppUrl = URL(string: "http://\(webAppHost)")
 
 let useUserAgentPostfix = true
 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String

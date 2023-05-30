@@ -5,7 +5,7 @@
 	<key>PROJECT_APP_NAME</key>
 	<string>Wheelmap</string>
 	<key>PROJECT_HOST_NAME</key>
-	<string>wheelmap.org</string>
+	<string>localhost:3000</string>
 	<key>PROJECT_PRIMARY_COLOR</key>
 	<string>7cc500</string>
 </dict>

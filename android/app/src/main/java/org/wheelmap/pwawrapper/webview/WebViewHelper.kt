@@ -265,7 +265,6 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                         // treat as an external url
                         handleExternalLinks(url)
                         // remove temp view
-                        newWebView.webViewClient = null
                         newWebView.stopLoading()
                         newWebView.destroy()
                     }
@@ -366,7 +365,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
     // Lifecycle callbacks
     fun onDestroy() {
-        webView.loadUrl(null)
+        webView.destroy()
     }
 
     fun onPause() {

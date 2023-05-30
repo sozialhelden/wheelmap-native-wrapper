@@ -159,22 +159,20 @@ platform :android do
     increment_version_code()
     release_build(build_type: 'playstore')
     apk_file_name = lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
-    hockey(
-      api_token: ENV['HOCKEY_API_TOKEN_ANDROID'],
-      apk: apk_file_name
-    )
+    # hockey(
+    #   api_token: ENV['HOCKEY_API_TOKEN_ANDROID'],
+    #   apk: apk_file_name
+    # )
     supply(
       apk: apk_file_name,
       track: 'beta',
       package_name: ENV['ANDROID_PROJECT_APP_ID']
     )
     notify_deployment(
-      message: 'Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening the beta link on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.',
+      message: 'Android beta successfully released to Play Store!',
       payload: {
         'Project' => ENV['PROJECT_ENV'],
         'Site' => "https://#{ENV['PROJECT_HOST_NAME']}",
-        'App Download URL' => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
-        'Beta Test Url' => ENV['ANDROID_BETA_TEST_URL']
       }
     )
   end
