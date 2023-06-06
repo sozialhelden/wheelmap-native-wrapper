@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,25 +15,25 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Message
+import android.provider.MediaStore
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
+import android.support.v4.content.FileProvider
 import android.view.View
 import android.webkit.*
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import org.wheelmap.pwawrapper.BuildConfig
 import org.wheelmap.pwawrapper.Configuration
 import org.wheelmap.pwawrapper.R
 import org.wheelmap.pwawrapper.ui.UIManager
-import android.webkit.ValueCallback
-import android.widget.Toast
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.provider.MediaStore
-import android.support.design.widget.Snackbar
-import android.support.v4.content.FileProvider
-import kotlinx.android.synthetic.main.activity_main.*
-import org.wheelmap.pwawrapper.BuildConfig
 import java.io.File
 import java.io.IOException
+import java.security.AccessController.getContext
+
 
 const val REQUEST_TAKE_PHOTO = 1
 const val PERMISSION_REQUEST_FINE_LOCATION = 1
@@ -263,7 +264,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                 newWebView.webViewClient = object: WebViewClient() {
                     override fun onPageStarted(tempView: WebView, url: String, favicon: Bitmap?) {
                         // treat as an external url
-                        handleExternalLinks(url)
+                        handleExternalLinks(url, tempView.context)
                         // remove temp view
                         newWebView.stopLoading()
                         newWebView.destroy()
@@ -408,7 +409,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
             view.stopLoading()
 
             // open external URL in Browser/3rd party apps instead
-            handleExternalLinks(url)
+            handleExternalLinks(url, view.context)
 
             // return value for shouldOverrideUrlLoading
             return true
@@ -421,7 +422,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         }
     }
 
-    private fun handleExternalLinks(url: String) {
+    private fun handleExternalLinks(url: String, context: Context) {
         try {
             var intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 
@@ -436,12 +437,7 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
                 val uri = Uri.fromParts("package", activity.packageName, null)
                 intent.data = uri
             }
-
-            if (intent.resolveActivity(activity.packageManager) != null) {
-                activity.startActivity(intent)
-            } else {
-                showNoAppDialog(activity)
-            }
+            context.startActivity(intent)
         } catch (e: Exception) {
             showNoAppDialog(activity)
         }
