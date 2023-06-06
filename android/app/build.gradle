@@ -9,8 +9,8 @@ android {
         applicationId System.env.ANDROID_PROJECT_APP_ID ? "$System.env.ANDROID_PROJECT_APP_ID" : 'org.wheelmap.pwawrapper'
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 500022
-        versionName "5.1"
+        versionCode 500025
+        versionName "5.2"
 
         buildConfigField 'String', 'PROJECT_APP_NAME', "\"$System.env.PROJECT_APP_NAME\""
         buildConfigField 'String', 'PROJECT_HOST_NAME', "\"$System.env.PROJECT_HOST_NAME\""
