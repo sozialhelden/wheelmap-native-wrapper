@@ -167,26 +167,24 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
 
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(activity.packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Toast.makeText(activity.applicationContext, R.string.cannot_generate_image_tempfile, Toast.LENGTH_LONG).show()
-                    lastFilePathCallback!!.onReceiveValue(null)
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    lastPhotoFileProviderContentSchemeUri = FileProvider.getUriForFile(
-                            activity,
-                            BuildConfig.APPLICATION_ID + ".fileprovider",
-                            it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, lastPhotoFileProviderContentSchemeUri)
-                    activity.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-                }
+            // Create the File where the photo should go
+            val photoFile: File? = try {
+                createImageFile()
+            } catch (ex: IOException) {
+                // Error occurred while creating the File
+                Toast.makeText(activity.applicationContext, R.string.cannot_generate_image_tempfile, Toast.LENGTH_LONG).show()
+                lastFilePathCallback!!.onReceiveValue(null)
+                null
+            }
+            // Continue only if the File was successfully created
+            photoFile?.also {
+                lastPhotoFileProviderContentSchemeUri = FileProvider.getUriForFile(
+                        activity,
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
+                        it
+                )
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, lastPhotoFileProviderContentSchemeUri)
+                activity.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
             }
         }
     }
