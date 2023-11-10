@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId System.env.ANDROID_PROJECT_APP_ID ? "$System.env.ANDROID_PROJECT_APP_ID" : 'org.wheelmap.pwawrapper'
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 500025
+        targetSdkVersion 33
+        versionCode 500026
         versionName "5.3"
 
         buildConfigField 'String', 'PROJECT_APP_NAME', "\"$System.env.PROJECT_APP_NAME\""
