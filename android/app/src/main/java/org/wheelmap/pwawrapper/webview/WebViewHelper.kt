@@ -17,11 +17,11 @@ import android.os.Handler
 import android.os.Message
 import android.provider.MediaStore
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v4.content.FileProvider
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
 import android.view.View
 import android.webkit.*
 import android.widget.Toast
@@ -218,21 +218,13 @@ class WebViewHelper(private val activity: Activity, private val uiManager: UIMan
         webSettings.setSupportMultipleWindows(true)
 
         // PWA settings
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            webSettings.databasePath = activity.applicationContext.filesDir.absolutePath
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            webSettings.setAppCacheMaxSize(java.lang.Long.MAX_VALUE)
-        }
         webSettings.domStorageEnabled = true
-        webSettings.setAppCachePath(activity.applicationContext.cacheDir.absolutePath)
-        webSettings.setAppCacheEnabled(true)
         webSettings.setAllowFileAccess(true)
         webSettings.setAllowContentAccess(true)
         webSettings.databaseEnabled = true
 
         // enable mixed content mode conditionally
-        if (Configuration.ENABLE_MIXED_CONTENT && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Configuration.ENABLE_MIXED_CONTENT) {
             webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         }
 

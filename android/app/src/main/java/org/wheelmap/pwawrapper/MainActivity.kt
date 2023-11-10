@@ -4,7 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.Toast
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Handle back-press in browser
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!webViewHelper!!.goBack()) {
             super.onBackPressed()
