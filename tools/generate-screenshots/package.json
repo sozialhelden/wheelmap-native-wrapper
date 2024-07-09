@@ -15,7 +15,7 @@
     "@wdio/mocha-framework": "^5.11.0",
     "@wdio/spec-reporter": "^5.11.0",
     "@wdio/sync": "^5.11.0",
-    "appium": "^1.14.0",
+    "appium": "^1.22.3",
     "chromedriver": "^75.0.1",
     "dotenv": "^8.0.0",
     "gettext-parser": "^4.0.0",
