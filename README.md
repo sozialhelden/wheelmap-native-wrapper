@@ -56,3 +56,8 @@ Run these commands for building development/beta/app store builds on Android:
 
 - `PROJECT_ENV=wheelmap.org FASTLANE_USER=[GOOGLE_DEVELOPER_EMAIL] bundle exec fastlane android development`
 - `PROJECT_ENV=wheelmap.org FASTLANE_USER=[GOOGLE_DEVELOPER_EMAIL] bundle exec fastlane android beta`
+
+Hint: If you want to build the project in Android Studio, open the 'android' folder as project in Android Studio, **not** the root folder of this repo.
+
+Usually, the first thing that you have to do is to update/re-sync gradle. Android studio will give you a hint on loading how to do this.
+
