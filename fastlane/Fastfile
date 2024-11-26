@@ -1,6 +1,11 @@
 fastlane_require 'dotenv'
 fastlane_require 'pp'
 
+require_relative 'update_xml_text.rb'
+require_relative 'add_metadata'
+require_relative 'set_xml_attribute'
+
+
 app_env_fields=['PROJECT_APP_NAME', 'PROJECT_HOST_NAME', 'PROJECT_PRIMARY_COLOR']
 
 before_all do
@@ -25,6 +30,7 @@ before_all do
 
   Dotenv.require_keys('PROJECT_ID')
 end
+
 
 desc 'Configure the project from the environent'
 private_lane :notify_deployment do |options|
@@ -57,9 +63,9 @@ end
 
 ### ------------ ANDROID ------------ ###
 platform :android do
-  manifest_file = './android/app/src/main/AndroidManifest.xml'
-  app_name_strings_file = './android/app/src/main/res/values/strings.xml'
-  colors_file = './android/app/src/main/res/values/colors.xml'
+  manifest_file = File.expand_path('../android/app/src/main/AndroidManifest.xml', __dir__)
+  app_name_strings_file = File.expand_path('../android/app/src/main/res/values/strings.xml', __dir__)
+  colors_file = File.expand_path('../android/app/src/main/res/values/colors.xml', __dir__)
 
   ######################### PRIVATE LANES ##########################
 
@@ -69,20 +75,27 @@ platform :android do
     update_manifest()
 
     # primary color
-    xml_editor(path_to_xml_file: colors_file, xml_path: '//resources//color[@name=\'primary\']', new_value: "##{ENV['PROJECT_PRIMARY_COLOR']}")
+    new_color = ENV['PROJECT_PRIMARY_COLOR']
+    new_color = "##{new_color}" unless new_color.start_with?('#')
+    update_xml_text(colors_file, '//resources/color[@name="primary"]', new_color)
 
-    app_env_fields.each do |key|
-      xml_add(path_to_xml_file: manifest_file, xml_path: '//application', new_value: "<meta-data android:name=\"#{key}\" android:value=\"#{ENV[key]}\"/>")
-    end
+    # add metadata
+    add_metadata(manifest_file, app_env_fields)
   end
+
 
   desc 'Fill the correct values into the manifest file'
   private_lane :update_manifest do
     # change both host entries
-    xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
-    xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
+    project_host_name = ENV['PROJECT_HOST_NAME']
+    set_xml_attribute(manifest_file, '//manifest/application/intent-filter/data[1][@android:scheme]', 'android:host', project_host_name)
+    set_xml_attribute(manifest_file, '//manifest/application/intent-filter/data[2][@android:scheme]', 'android:host', project_host_name)
+    # xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
+    # xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
 
-    xml_editor(path_to_xml_file: app_name_strings_file, xml_path: '//resources//string[@name=\'app_name\']', new_value: ENV['PROJECT_APP_NAME'])
+    # set project app name
+    project_app_name = ENV['PROJECT_APP_NAME']
+    update_xml_text(app_name_strings_file, '//resources/string[@name="app_name"]', project_app_name)
   end
 
   desc 'Create the app icons'
