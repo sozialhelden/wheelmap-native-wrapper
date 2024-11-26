@@ -90,8 +90,6 @@ platform :android do
     project_host_name = ENV['PROJECT_HOST_NAME']
     set_xml_attribute(manifest_file, '//manifest/application/intent-filter/data[1][@android:scheme]', 'android:host', project_host_name)
     set_xml_attribute(manifest_file, '//manifest/application/intent-filter/data[2][@android:scheme]', 'android:host', project_host_name)
-    # xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[1][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
-    # xml_set_attribute(path_to_xml_file: manifest_file, xml_path: '//manifest//application//intent-filter//data[2][@android:scheme]', attribute_name: 'android:host', attribute_value: ENV['PROJECT_HOST_NAME'])
 
     # set project app name
     project_app_name = ENV['PROJECT_APP_NAME']
