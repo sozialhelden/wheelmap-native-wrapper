@@ -1,8 +1,10 @@
 package org.wheelmap.pwawrapper
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebView
 import org.wheelmap.pwawrapper.ui.UIManager
@@ -16,14 +18,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Setup Theme
-        setTheme(R.style.AppTheme_NoActionBar)
+        if (Build.VERSION.SDK_INT >= 35) { // Android 15 (Vanilla Ice Cream)
+            setTheme(R.style.AppTheme_NoActionBar_OptOut)
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15
+        // It was possible to opt out of edge-to-edge enforcement this time, but the
+        // following code might be useful in future version updates
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15
             val edgeToEdgeHandler = EdgeToEdgeHandler(this)
             edgeToEdgeHandler.adjustLayout()
-        }
+        }*/
 
         Configuration.init(applicationContext)
 
