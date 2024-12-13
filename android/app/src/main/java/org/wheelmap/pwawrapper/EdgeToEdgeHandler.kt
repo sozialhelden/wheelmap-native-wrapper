@@ -17,7 +17,7 @@ class EdgeToEdgeHandler(private val activity: AppCompatActivity) {
 
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { _, windowInsets ->
             // Handle Status Bar Background
-            val statusBarHeight = windowInsets.systemWindowInsetTop
+            val statusBarHeight = windowInsets.stableInsetTop
             if (statusBarHeight > 0) {
                 val statusBarBackgroundView = View(activity).apply {
                     setBackgroundColor(ContextCompat.getColor(activity, R.color.primary))
@@ -34,7 +34,7 @@ class EdgeToEdgeHandler(private val activity: AppCompatActivity) {
             }
 
             // Handle Bottom Bar Background
-            val bottomBarHeight = windowInsets.systemWindowInsetBottom
+            val bottomBarHeight = windowInsets.stableInsetBottom
             if (bottomBarHeight > 0) {
                 val bottomBarBackgroundView = View(activity).apply {
                     setBackgroundColor(Color.BLACK)
@@ -64,7 +64,7 @@ class EdgeToEdgeHandler(private val activity: AppCompatActivity) {
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, windowInsets ->
             val layoutParams = view.layoutParams as RelativeLayout.LayoutParams
-            layoutParams.setMargins(0, windowInsets.systemWindowInsetTop, 0, windowInsets.systemWindowInsetBottom)
+            layoutParams.setMargins(0, windowInsets.stableInsetTop, 0, windowInsets.stableInsetBottom)
             view.layoutParams = layoutParams
             windowInsets
         }
