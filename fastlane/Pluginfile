@@ -2,7 +2,6 @@
 #
 # Ensure this file is checked in to source control!
 
-# gem 'fastlane-plugin-xml_editor', "~> 0.2.0"
 gem 'fastlane-plugin-appicon'
 gem 'fastlane-plugin-browserstack'
 gem 'fastlane-plugin-increment_version_code'

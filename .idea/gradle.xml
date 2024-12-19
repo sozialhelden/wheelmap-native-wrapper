@@ -6,8 +6,7 @@
       <GradleProjectSettings>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/android/app" />
-        <option name="gradleHome" value="/usr/local/Cellar/gradle/4.6/libexec" />
-        <option name="gradleJvm" value="jbr-21" />
+        <option name="gradleJvm" value="temurin-22" />
         <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>

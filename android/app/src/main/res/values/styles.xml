@@ -17,4 +17,7 @@
         <item name="android:windowBackground">@xml/launcher</item>
     </style>
 
+    <style name="OptOutEdgeToEdgeEnforcement">
+    </style>
+
 </resources>
